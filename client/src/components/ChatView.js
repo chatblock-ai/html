@@ -1,3 +1,4 @@
+/* global BigInt */
 import React, { useState, useRef, useEffect, useContext } from "react";
 import ChatMessage from "./ChatMessage";
 import { ChatContext } from "../context/chatContext";
@@ -111,9 +112,9 @@ const ChatView = () => {
 		const newMsg = formValue;
 		const aiModel = selected;
 
-		const BASE_URL =process.env.REACT_APP_API_URL;
-		const PATH = aiModel === options[0] ? "davinci" : "dalle";
-		const POST_URL = BASE_URL + PATH;
+		const API_URL = process.env.REACT_APP_API_URL;
+		const resource = aiModel === options[0] ? "davinci" : "dalle";
+		const POST_URL = API_URL + resource;
 		console.log(POST_URL);
 		setThinking(true);
 		setFormValue("");
@@ -209,7 +210,10 @@ const ChatView = () => {
 					</div>
 
 					{messages.map((message, index) => (
-						<ChatMessage key={`key_${index}`} message={{ ...message, picUrl }} />
+						<ChatMessage
+							key={`key_${index}`}
+							message={{ ...message, picUrl }}
+						/>
 					))}
 
 					{thinking && <Thinking />}
