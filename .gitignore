@@ -3,3 +3,4 @@ notes
 *-lock.json
 node_modules
 build
+run.sh
