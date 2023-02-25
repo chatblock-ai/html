@@ -276,8 +276,8 @@ app.post("/webhook", (req, res) => {
 				});
 			}
 
-			console.log("stdout", stderr);
-			console.log("stdout", stderr);
+			console.log("stdout", stdout);
+			console.log("stderr", stderr);
 		},
 	);
 	res.status(200).send({
