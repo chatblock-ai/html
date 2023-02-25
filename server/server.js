@@ -271,10 +271,6 @@ app.post("/webhook", (req, res) => {
 			console.log("**");
 			if (error !== null) {
 				console.error(`webhook: ${error}`);
-
-				return res.status(200).send({
-					message: "could not complete :(",
-				});
 			}
 
 			console.log("stdout", stdout);
