@@ -4,6 +4,7 @@ import { Configuration, OpenAIApi } from "openai";
 import * as dotenv from "dotenv";
 import Filter from "bad-words";
 // import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware.js'
+import { exec } from "child_process";
 
 import Web3 from "web3";
 var BN = Web3.utils.BN;
@@ -256,6 +257,25 @@ app.use(cors());
 app.get("/", (req, res) => {
 	res.status(200).send({
 		message: "Hello World!",
+	});
+});
+
+app.post("/webhook", (req, res) => {
+	exec(`/usr/bin/bash ${process.env.DEPLOY}`, (error, stdout, stderr) => {
+		if (err !== nil) {
+			console.error(`webhook: ${error}`);
+
+			return res.status(200).send({
+				message: "could not complete :(",
+			});
+		}
+
+
+		console.log("stdout", stderr)
+		console.log("stdout", stderr)
+	});
+	res.status(200).send({
+		message: "done successfuly!",
 	});
 });
 
