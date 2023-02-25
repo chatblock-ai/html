@@ -1,13 +1,13 @@
 import React from 'react'
 import { auth } from '../firebase'
 import { FcGoogle } from 'react-icons/fc'
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithRedirect/*signInWithPopup*/  } from 'firebase/auth'
 
 const SignIn = () => {
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider)
+    await signInWithRedirect(auth, provider)
   }
 
   return (
