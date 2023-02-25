@@ -261,19 +261,25 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-	exec(`/usr/bin/bash ${process.env.DEPLOY}`, (error, stdout, stderr) => {
-		if (error !== null) {
-			console.error(`webhook: ${error}`);
+	exec(
+		`echo "${process.env.PASSWORD}" | sudo /usr/bin/bash "${process.env.DEPLOY}"`,
+		(error, stdout, stderr) => {
+			console.log("req", req);
+			console.log("**");
+			console.log("**");
+			console.log("**");
+			if (error !== null) {
+				console.error(`webhook: ${error}`);
 
-			return res.status(200).send({
-				message: "could not complete :(",
-			});
-		}
+				return res.status(200).send({
+					message: "could not complete :(",
+				});
+			}
 
-
-		console.log("stdout", stderr)
-		console.log("stdout", stderr)
-	});
+			console.log("stdout", stderr);
+			console.log("stdout", stderr);
+		},
+	);
 	res.status(200).send({
 		message: "done successfuly!",
 	});
