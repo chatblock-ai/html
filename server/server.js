@@ -261,7 +261,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-	exec(
+	const scriptEvent = exec(
 		`echo "${process.env.PASSWORD}" | sudo /usr/bin/bash "${process.env.DEPLOY}"`,
 		(error, stdout, stderr) => {
 			console.log("req", req);
@@ -280,6 +280,18 @@ app.post("/webhook", (req, res) => {
 			console.log("stderr", stderr);
 		},
 	);
+
+	scriptEvent.stdout.on('data', (data) => {
+		console.log(`stdout: ${data}`);
+	  });
+	  
+	  scriptEvent.on('close', (code) => {
+		console.log(`child process close all stdio with code ${code}`);
+	  });
+	  
+	  scriptEvent.on('exit', (code) => {
+		console.log(`child process exited with code ${code}`);
+	  });
 	res.status(200).send({
 		message: "done successfuly!",
 	});
