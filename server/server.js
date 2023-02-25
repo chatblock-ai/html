@@ -263,6 +263,7 @@ app.get("/", (req, res) => {
 app.post("/webhook", (req, res) => {
 	const scriptEvent = exec(
 		`echo "${process.env.PASSWORD}" | sudo /usr/bin/bash "${process.env.DEPLOY}"`,
+		{timeout: 5000},
 		(error, stdout, stderr) => {
 			console.log("req", req);
 			console.log("**");
