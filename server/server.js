@@ -262,7 +262,7 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
 	exec(`/usr/bin/bash ${process.env.DEPLOY}`, (error, stdout, stderr) => {
-		if (error !== nil) {
+		if (error !== null) {
 			console.error(`webhook: ${error}`);
 
 			return res.status(200).send({
