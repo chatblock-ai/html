@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import crypto from "crypto";
 import { Configuration, OpenAIApi } from "openai";
 import * as dotenv from "dotenv";
 import Filter from "bad-words";
@@ -261,23 +262,49 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-	exec(`/usr/bin/bash -x ${process.env.DEPLOY}`,
-		(error, stdout, stderr) => {
-			console.log("**");
-			console.log("**");
-			console.log("**");
-			if (error !== null) {
-				console.error(`webhook: ${error}`);
-			}
+	const payload = req.body;
+	if (!payload.ref.endsWith("main")) {
+		res.status(200).send(`do not deploy: is not main branch ${payload.ref}`);
+		return;
+	}
 
-			console.log("stdout", stdout);
-			console.log("stderr", stderr);
-			res.status(200).send({
-				message: "done successfuly!",
-			});
-		},
-	);
+	const signature = req.headers['x-hub-signature-256'];
+	console.log('signature', signature);
+	const secret = Buffer.from(process.env.SECRET_TOKEN, 'utf8');
+	 
+	 if (!verifySignature(payload, signature, secret)) {
+		res.status(401).send('Signatures didn\'t match');
+		return;
+	  }
+
+	exec(`/usr/bin/bash -x ${process.env.DEPLOY}`, (error, stdout, stderr) => {
+		console.log("**");
+		console.log("**");
+		console.log("**");
+		if (error !== null) {
+			console.error(`webhook: ${error}`);
+		}
+
+		console.log("stdout", stdout);
+		console.log("stderr", stderr);
+		res.status(200).send({
+			message: "done successfuly!",
+		});
+	});
 });
+
+function verifySignature(payload, signature, secret) {
+	// Compute the expected signature
+	const hmac = crypto.createHmac("sha256", secret);
+	hmac.update(JSON.stringify(payload));
+	const expectedSignature = `sha256=${hmac.digest("hex")}`;
+
+	// Compare the expected signature with the actual signature
+	return crypto.timingSafeEqual(
+		Buffer.from(signature),
+		Buffer.from(expectedSignature),
+	);
+}
 
 /**
  * POST /davinci
