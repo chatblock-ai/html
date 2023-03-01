@@ -20,16 +20,16 @@ const DarkMode = (props) => {
         {darkTheme ? (
           <>
             <div className="nav__icons">
-              <MdOutlineWbSunny />
+              <img src="/images/light-mode.png" className="w-[25px]" />
             </div>
-            <h1 className={`${!props.open && "hidden"}`}>Light mode</h1>
+            <h1 className={`font-vt ${!props.open && "hidden"}`}>Light mode</h1>
           </>
         ) : (
           <>
             <div className="nav__icons">
-              <MdOutlineNightlight />
+            <img src="/images/dark-mode.png" className="w-[25px]" />
             </div>
-            <h1 className={`${!props.open && "hidden"}`}>Night mode</h1>
+            <h1 className={`font-vt ${!props.open && "hidden"}`}>Night mode</h1>
           </>
         )}
 

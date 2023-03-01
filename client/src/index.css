@@ -1,6 +1,12 @@
 @import-normalize;
 @tailwind base;
 @tailwind components;
+
+@font-face {
+  font-family: 'VT323';
+  src: url(./fonts/VT323-Regular.ttf) format('ttf'), url(./fonts/VT323-Regular.ttf);
+}
+
 @tailwind utilities;
 
 *,
