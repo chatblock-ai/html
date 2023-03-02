@@ -1,0 +1,13 @@
+.component13-container {
+  display: flex;
+  position: relative;
+}
+.component13-image {
+  width: 290px;
+  margin-top: var(--dl-space-space-unit);
+  object-fit: cover;
+}
+.component13-root-class-name {
+  margin-top: var(--dl-space-space-halfunit);
+  margin-bottom: var(--dl-space-space-halfunit);
+}

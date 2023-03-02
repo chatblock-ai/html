@@ -1,0 +1,106 @@
+.chatblockai-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  background-size: cover;
+  justify-content: flex-start;
+  /* background-image: url("./playground_assets/bg%20%5B3%5D-1500w.jpg"); */
+  background-image: url("../../public/playground_assets/bg%20%5B3%5D-1500w.jpg");
+}
+
+.chatblockai-image {
+  width: 270px;
+  margin-top: 1.5%;
+  object-fit: cover;
+}
+
+.chatblockai-image1 {
+  width: 35%;
+  margin-top: 1.5%;
+  object-fit: cover;
+}
+
+.chatblockai-navlink {
+  display: contents;
+}
+
+.chatblockai-component {
+  text-decoration: none;
+}
+
+.chatblockai-container1 {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  margin-top: var(--dl-space-space-unit);
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.chatblockai-link {
+  display: contents;
+}
+
+.chatblockai-component1 {
+  text-decoration: none;
+}
+
+.chatblockai-link1 {
+  display: contents;
+}
+
+.chatblockai-component2 {
+  text-decoration: none;
+}
+
+.chatblockai-link2 {
+  display: contents;
+}
+
+.chatblockai-component3 {
+  text-decoration: none;
+}
+
+.chatblockai-link3 {
+  display: contents;
+}
+
+.chatblockai-component4 {
+  text-decoration: none;
+}
+
+.chatblockai-link4 {
+  display: contents;
+}
+
+.chatblockai-component5 {
+  text-decoration: none;
+}
+
+.chatblockai-image2 {
+  width: 554px;
+  height: 132px;
+  margin-top: var(--dl-space-space-halfunit);
+  object-fit: cover;
+}
+
+.chatblockai-link5 {
+  display: contents;
+}
+
+.chatblockai-image3 {
+  width: var(--dl-size-size-small);
+  object-fit: cover;
+  text-decoration: none;
+}
+
+@media(max-width: 767px) {
+  .chatblockai-container {
+    background-size: cover;
+    background-image: url("../../public/playground_assets/bg%20%5B2%5D-1500w.jpg");
+  }
+}

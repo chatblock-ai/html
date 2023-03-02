@@ -1,0 +1,8 @@
+.component18-container {
+  display: flex;
+  position: relative;
+}
+.component18-image {
+  width: 60px;
+  object-fit: cover;
+}

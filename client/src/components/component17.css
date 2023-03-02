@@ -1,0 +1,17 @@
+.component17-container {
+  display: flex;
+  position: relative;
+}
+.component17-image {
+  width: 60px;
+  object-fit: cover;
+  margin-right: var(--dl-space-space-unit);
+}
+.component17-root-class-name {
+  margin-right: var(--dl-space-space-twounits);
+}
+@media(max-width: 479px) {
+  .component17-root-class-name {
+    margin-right: var(--dl-space-space-oneandhalfunits);
+  }
+}

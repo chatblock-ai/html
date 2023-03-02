@@ -12,6 +12,9 @@ module.exports = {
         "dark-grey": "#202123",
         "light-grey": "#353740",
       },
+      fontFamily: {
+        vt: ['VT323']
+        }
     },
   },
   variants: {
