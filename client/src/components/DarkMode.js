@@ -27,7 +27,7 @@ const DarkMode = (props) => {
         ) : (
           <>
             <div className="nav__icons">
-            <img src="/images/dark-mode.png" className="w-[25px]" />
+            <img src="/images/dark-mode.png" className="w-[20px]" />
             </div>
             <h1 className={`font-vt ${!props.open && "hidden"}`}>Night mode</h1>
           </>
