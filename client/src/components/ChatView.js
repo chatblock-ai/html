@@ -1,6 +1,5 @@
 /* global BigInt */
-import React, { useState, useRef, useEffect, useContext} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import ChatMessage from "./ChatMessage";
 import { ChatContext } from "../context/chatContext";
 import { auth } from "../firebase";
@@ -34,9 +33,7 @@ const ChatView = () => {
 	const [depositBalance, setDepositBalance] = useState(0);
 	const [withdrawBalance, setWithdrawBalance] = useState(0);
 	const [pressedEnter, setPressedEnter] = useState(false);
-	const [showPrompt, setShowPrompt] = useState(false)
 	const [messages, addMessage, , , setLimit] = useContext(ChatContext);
-	const navigate = useNavigate();
 	const user = auth.currentUser.uid;
 	const picUrl =
 		auth.currentUser.photoURL ||
@@ -100,13 +97,8 @@ const ChatView = () => {
 	 * @param {Event} e - The submit event of the form.
 	 */
 	const sendMessage = async (e) => {
-		if (depositBalance <= 0){
-			setShowPrompt(!showPrompt)
-		} else {
-			setShowPrompt(false)
-		}
 		e.preventDefault();
-		console.log("decimals", decimals)
+
 		if (decimals === 0) return;
 		let balance =
 			(await getBalance()).div(10 ** (decimals - 3)).toNumber() / 1000;
@@ -181,21 +173,11 @@ const ChatView = () => {
 		handleGetDecimal();
 		handleGetBalance();
 	}, [decimals]);
-
-	const manageAccount = () => {
-		navigate('/deposits-and-withdrawals')
-	}
 	if (isConnected)
 		return (
 			<div className="chatview">
 				<main className='chatview__chatarea'>
 					<div className='connect-wallet'>
-					<button className="connect-w" onClick={manageAccount}>
-							<span>
-								<WalletOpenIcon size="20" />
-							</span>
-							Wallet
-						</button>
 						<input
 							className="connect-w"
 							style={{ backgroundColor: "black", width: "100px" }}
@@ -255,41 +237,30 @@ const ChatView = () => {
 					/>
 					<button
 						type="submit"
-						className='relative chatview__btn-send'
+						className='chatview__btn-send'
 						disabled={!formValue}
 					>
 						Send
 					</button>
-					{showPrompt?(
-					<div className="absolute bottom-[20px] right-[64px] h-[200px]">
-						<img src="images/prompt.png" className="w-[200px] h-full" />
-					</div>
-					):null}
 				</form>
 			</div>
 		);
 	else
 		return (
 			<>
-				<div className='connect-wallet h-[100px]' >
+				<div className='connect-wallet'>
 					<button
-						className=""
+						className="connect-w"
 						onClick={isConnected ? disconnectWallet : connectWallet}
 					>
 						<span>
 							{isConnected ? (
-								// <WalletOpenIcon size="20" />
-								<div className="">
-									<img src="/images/wallet-connected.png" className="w-full h-[100px]" />
-									<img src="/images/main-deposit.png" className="w-full h-[100px]" />
-								</div>
+								<WalletOpenIcon size="20" />
 							) : (
-								// <WalletClosedIcon size="20" />
-								<img src="/images/connect-wallet.png" className="w-full h-[100px]" />
+								<WalletClosedIcon size="20" />
 							)}
 						</span>
-						{/* Connect Wallet */}
-						
+						Connect Wallet
 					</button>
 				</div>
 				<text
