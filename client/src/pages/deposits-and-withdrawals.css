@@ -1,0 +1,254 @@
+.deposits-and-withdrawals-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .deposits-and-withdrawals-container1 {
+    width: 100%;
+    height: 781px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+  .deposits-and-withdrawals-navlink {
+    display: contents;
+  }
+  .deposits-and-withdrawals-image {
+    top: 48px;
+    left: 491px;
+    width: 219px;
+    height: auto;
+    position: absolute;
+    object-fit: cover;
+    border-color: rgba(0, 0, 0, 0);
+    border-width: 1px;
+    border-radius: var(--dl-radius-radius-radius4);
+    text-decoration: none;
+  }
+  .deposits-and-withdrawals-button {
+    top: 490px;
+    left: 517px;
+    color: rgb(0, 0, 0);
+    width: 166px;
+    height: 52px;
+    margin: 0px;
+    padding: 0rem;
+    position: absolute;
+    font-size: 28px;
+    text-align: center;
+    font-family: VT323;
+    line-height: 1.5;
+    border-style: hidden;
+    padding-bottom: 0rem;
+    background-color: rgba(255, 255, 255, 0);
+  }
+  .deposits-and-withdrawals-container2 {
+    top: 306px;
+    left: 458px;
+    width: 283px;
+    height: 27.59375px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+  }
+  .deposits-and-withdrawals-button1 {
+    width: 136px;
+    font-size: 24px;
+    text-align: center;
+    font-family: VT323;
+    padding-top: 0px;
+    border-style: hidden;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    background-color: rgba(255, 255, 255, 0);
+  }
+  .deposits-and-withdrawals-button2 {
+    width: 136px;
+    font-size: 24px;
+    text-align: center;
+    font-family: VT323;
+    padding-top: 0px;
+    border-style: hidden;
+    padding-bottom: 0px;
+    background-color: rgba(255, 255, 255, 0);
+  }
+  .deposits-and-withdrawals-container3 {
+    top: 365px;
+    left: 420px;
+    width: 372px;
+    height: 51px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+  }
+  .deposits-and-withdrawals-textinput {
+    top: 0px;
+    left: 0px;
+    width: 179px;
+    height: 51px;
+    margin: auto;
+    position: absolute;
+    font-size: 33px;
+    text-align: left;
+    font-family: VT323;
+    border-color: #ffffff;
+    border-style: hidden;
+    border-width: 0px;
+    margin-right: auto;
+  }
+  .deposits-and-withdrawals-button3 {
+    top: 0px;
+    right: 0px;
+    width: 55px;
+    height: 51px;
+    position: absolute;
+    font-size: 60px;
+    transform: rotate(90deg);
+    text-align: center;
+    font-family: VT323;
+    line-height: 1;
+    padding-top: 0px;
+    border-color: rgba(0, 0, 0, 0);
+    border-style: hidden;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    background-color: rgba(103, 81, 81, 0);
+  }
+  .deposits-and-withdrawals-image1 {
+    left: 0px;
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+    margin-top: 0px;
+    object-fit: cover;
+  }
+  @media(max-width: 991px) {
+    .deposits-and-withdrawals-container1 {
+      width: 100%;
+      height: 715px;
+    }
+    .deposits-and-withdrawals-image {
+      top: 7px;
+      left: 384px;
+      margin: auto;
+    }
+    .deposits-and-withdrawals-button {
+      top: 457px;
+      left: 412px;
+    }
+    .deposits-and-withdrawals-container2 {
+      top: 273px;
+      left: 353px;
+    }
+    .deposits-and-withdrawals-button1 {
+      top: -32px;
+      left: -104px;
+      position: static;
+    }
+    .deposits-and-withdrawals-button2 {
+      top: -32px;
+      right: 104px;
+      position: static;
+    }
+    .deposits-and-withdrawals-container3 {
+      top: 332px;
+      left: 316px;
+    }
+    .deposits-and-withdrawals-textinput {
+      left: 0px;
+      bottom: -1px;
+    }
+  }
+  @media(max-width: 767px) {
+    .deposits-and-withdrawals-container1 {
+      width: 100%;
+      height: 637px;
+    }
+    .deposits-and-withdrawals-image {
+      top: -37px;
+      left: 275px;
+      margin: auto;
+    }
+    .deposits-and-withdrawals-button {
+      top: 418px;
+      left: 300px;
+    }
+    .deposits-and-withdrawals-container2 {
+      top: 235px;
+      left: 241px;
+    }
+    .deposits-and-withdrawals-button1 {
+      top: -73px;
+      left: -216px;
+    }
+    .deposits-and-withdrawals-button2 {
+      top: -73px;
+      left: -69px;
+    }
+    .deposits-and-withdrawals-container3 {
+      top: 292px;
+      left: 202px;
+    }
+    .deposits-and-withdrawals-textinput {
+      left: 2px;
+      bottom: -1px;
+    }
+  }
+  @media(max-width: 479px) {
+    .deposits-and-withdrawals-container1 {
+      width: 479px;
+      height: 955px;
+      align-self: center;
+    }
+    .deposits-and-withdrawals-image {
+      top: 143px;
+      left: 155px;
+      width: 168px;
+      height: auto;
+      margin: auto;
+    }
+    .deposits-and-withdrawals-button {
+      top: 576px;
+      left: 157px;
+    }
+    .deposits-and-withdrawals-container2 {
+      top: 395px;
+      left: 104px;
+      width: 269px;
+      height: 25px;
+    }
+    .deposits-and-withdrawals-button1 {
+      top: -154px;
+      left: 10px;
+      position: static;
+      padding-left: 0px;
+      padding-right: 0px;
+      background-color: rgba(255, 255, 255, 0);
+    }
+    .deposits-and-withdrawals-button2 {
+      top: 1px;
+      right: -19px;
+      position: static;
+    }
+    .deposits-and-withdrawals-container3 {
+      top: 453px;
+      left: 56px;
+    }
+    .deposits-and-withdrawals-textinput {
+      top: -7px;
+      left: 8px;
+      width: 246px;
+      height: 60px;
+      position: absolute;
+    }
+  }
+  

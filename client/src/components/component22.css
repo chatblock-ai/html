@@ -1,0 +1,15 @@
+.component22-container {
+  width: 948px;
+  height: 658px;
+  display: flex;
+  position: relative;
+  background-size: cover;
+  background-image: url("../../public/playground_assets/new_project_31%20%5B1%5D-1500w.png");
+  background-position: center;
+}
+@media(max-width: 479px) {
+  .component22-container {
+    width: 100%;
+    height: 650px;
+  }
+}

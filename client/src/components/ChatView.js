@@ -1,5 +1,6 @@
 /* global BigInt */
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import { ChatContext } from "../context/chatContext";
 import { auth } from "../firebase";
@@ -35,6 +36,7 @@ const ChatView = () => {
 	const [pressedEnter, setPressedEnter] = useState(false);
 	const [showPrompt, setShowPrompt] = useState(false)
 	const [messages, addMessage, , , setLimit] = useContext(ChatContext);
+	const navigate = useNavigate();
 	const user = auth.currentUser.uid;
 	const picUrl =
 		auth.currentUser.photoURL ||
@@ -179,11 +181,21 @@ const ChatView = () => {
 		handleGetDecimal();
 		handleGetBalance();
 	}, [decimals]);
+
+	const manageAccount = () => {
+		navigate('/deposits-and-withdrawals')
+	}
 	if (isConnected)
 		return (
 			<div className="chatview">
 				<main className='chatview__chatarea'>
 					<div className='connect-wallet'>
+					<button className="connect-w" onClick={manageAccount}>
+							<span>
+								<WalletOpenIcon size="20" />
+							</span>
+							Wallet
+						</button>
 						<input
 							className="connect-w"
 							style={{ backgroundColor: "black", width: "100px" }}
