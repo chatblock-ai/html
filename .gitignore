@@ -1,0 +1,7 @@
+notes
+*.env
+*-lock.json
+node_modules
+build
+run.sh
+deployment_scripts
