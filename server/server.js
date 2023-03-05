@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { Configuration, OpenAIApi } from "openai";
 import * as dotenv from "dotenv";
 import Filter from "bad-words";
+import bodyParser from 'body-parser'
 // import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware.js'
 import { exec } from "child_process";
 
@@ -14,210 +15,264 @@ const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 const privateKey =
 	"df57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e";
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-console.log(account);
+console.log("tttt", account);
 const contractAbi = [
 	{
-		inputs: [
+		"inputs": [
 			{
-				internalType: "address",
-				name: "_token",
-				type: "address",
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
 			},
+			{
+				"internalType": "address",
+				"name": "selectedToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "native",
+				"type": "bool"
+			}
 		],
-		stateMutability: "nonpayable",
-		type: "constructor",
+		"name": "deduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
-		anonymous: false,
-		inputs: [
+		"inputs": [
 			{
-				indexed: true,
-				internalType: "address",
-				name: "_from",
-				type: "address",
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
 			},
 			{
-				indexed: false,
-				internalType: "uint256",
-				name: "_value",
-				type: "uint256",
-			},
+				"internalType": "address",
+				"name": "selectedToken",
+				"type": "address"
+			}
 		],
-		name: "NewDeposit",
-		type: "event",
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: "address",
-				name: "previousOwner",
-				type: "address",
-			},
-			{
-				indexed: true,
-				internalType: "address",
-				name: "newOwner",
-				type: "address",
-			},
-		],
-		name: "OwnershipTransferred",
-		type: "event",
+		"inputs": [],
+		"name": "depositBnb",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
 	},
 	{
-		anonymous: false,
-		inputs: [
+		"anonymous": false,
+		"inputs": [
 			{
-				indexed: true,
-				internalType: "address",
-				name: "_to",
-				type: "address",
+				"indexed": true,
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
 			},
 			{
-				indexed: false,
-				internalType: "uint256",
-				name: "_value",
-				type: "uint256",
-			},
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
 		],
-		name: "Withdrawal",
-		type: "event",
+		"name": "NewDeposit",
+		"type": "event"
 	},
 	{
-		inputs: [
+		"anonymous": false,
+		"inputs": [
 			{
-				internalType: "address",
-				name: "_user",
-				type: "address",
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
 			},
 			{
-				internalType: "uint256",
-				name: "_amount",
-				type: "uint256",
-			},
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
 		],
-		name: "deduct",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
+		"name": "OwnershipTransferred",
+		"type": "event"
 	},
 	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "_amount",
-				type: "uint256",
-			},
-		],
-		name: "deposit",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
-		inputs: [
+		"inputs": [
 			{
-				internalType: "address",
-				name: "_address",
-				type: "address",
-			},
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
 		],
-		name: "getBalance",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
-		inputs: [],
-		name: "owner",
-		outputs: [
+		"inputs": [
 			{
-				internalType: "address",
-				name: "",
-				type: "address",
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
 			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [],
-		name: "renounceOwnership",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
 			{
-				internalType: "address",
-				name: "_token",
-				type: "address",
+				"internalType": "address",
+				"name": "selectedToken",
+				"type": "address"
 			},
-		],
-		name: "setToken",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [],
-		name: "token",
-		outputs: [
 			{
-				internalType: "contract IERC20",
-				name: "",
-				type: "address",
-			},
+				"internalType": "bool",
+				"name": "native",
+				"type": "bool"
+			}
 		],
-		stateMutability: "view",
-		type: "function",
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
-		inputs: [
+		"anonymous": false,
+		"inputs": [
 			{
-				internalType: "address",
-				name: "newOwner",
-				type: "address",
+				"indexed": true,
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
 			},
-		],
-		name: "transferOwnership",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
 			{
-				internalType: "uint256",
-				name: "_amount",
-				type: "uint256",
-			},
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
 		],
-		name: "withdraw",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
+		"name": "Withdrawal",
+		"type": "event"
 	},
 	{
-		inputs: [],
-		name: "withdrawOwner",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_Value",
+				"type": "uint256"
+			}
+		],
+		"name": "WithdrawalOwner",
+		"type": "event"
 	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "selectedToken",
+				"type": "address"
+			}
+		],
+		"name": "withdrawOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBalanceBnb",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "token",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
 ];
-const contractAddress = "0x20292749BF77521D720D8ed8d6441Cbb7f9064D5";
+const contractAddress = "0x9186eaa20dacb09879d1673bbda7056017c4d738";
+const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
+const usdtAddress = "0x7aF07281f1f289a314Dd4f9e4753fD48e768B57C";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-// const allowedOrigins = ['http://eyucoder.com', 'https://chatgpt.eyucoder.com', 'http://chatblock.ai']
+const allowedOrigins = ['http://eyucoder.com', 'https://chatgpt.eyucoder.com', 'http://chatblock.ai', "http://localhost:3001"]
 
 const filter = new Filter();
 const counter = new Map();
@@ -244,8 +299,12 @@ const app = express();
 // Parse JSON in request body
 app.use(express.json());
 
-// Enable CORS
-app.use(cors());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(cors({
+	origin: "http://localhost:3001"
+}));
 
 // ratelimiter middleware function
 // app.use('/davinci', rateLimitMiddleware)
@@ -255,11 +314,6 @@ app.use(cors());
  * GET /
  * Returns a simple message.
  */
-app.get("/", (req, res) => {
-	res.status(200).send({
-		message: "Hello World!",
-	});
-});
 
 app.post("/webhook", (req, res) => {
 	const payload = req.body;
@@ -311,6 +365,7 @@ function verifySignature(payload, signature, secret) {
  * Returns a response from OpenAI's text completion model.
  */
 app.post("/davinci", async (req, res) => {
+	console.log("tatata", req.body);
 	// Validate request body
 	if (!req.body.prompt) {
 		return res.status(400).send({
@@ -324,15 +379,19 @@ app.post("/davinci", async (req, res) => {
 
 		count = (count + 1) % 3;
 		counter.set(req.body.address, count);
-
+		console.log(count);
 		if (count === 0) {
+			let native = true;
+			let tokenAddress = busdAddress;
+			if (req.body.type == "USDT") {tokenAddress = usdtAddress; native = false;}
+			if (req.body.type == "BUSD") {tokenAddress = busdAddress; native = false;}
 			const txObject = {
 				from: account.address,
 				to: contractAddress,
 				gas: web3.utils.toHex(500000),
 				gasPrice: web3.utils.toHex(10e9), // 10 Gwei
 				data: contract.methods
-					.deduct(req.body.address, new BN("150000000000000000"))
+					.deduct(req.body.address, tokenAddress,  new BN("150000000000000000"), native)
 					.encodeABI(),
 			};
 			const signedTx = await account.signTransaction(txObject);
@@ -414,5 +473,5 @@ app.post("/dalle", async (req, res) => {
 });
 
 // Start server
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Server listening on port ${port}`));

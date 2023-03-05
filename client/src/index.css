@@ -243,36 +243,6 @@
     @apply text-white text-center font-bold p-2;
   }
 
-  .connect-wallet {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    display: flex;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-    --tw-bg-opacity: 1;
-    font-size: 1.25rem;
-    line-height: 1.75rem
-  }
-
-  .connect-w {
-    display: flex;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    color: white;
-    border-radius: 0.5rem;
-    border-width: 1px;
-    padding: 0.6rem 1rem;
-    width: 120%;
-    --tw-border-opacity: 1;
-    border-color: rgb(53 55 64 / var(--tw-border-opacity));
-  }
-
-  .connect-w>span {
-    margin-top: 0.4rem;
-    margin-right: 1rem;
-  }
-
   .connect-crystal {
     display: flex;
     border-radius: 0.5rem;
@@ -311,6 +281,37 @@
   }
 
 
+}
+
+.connect-wallet {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: flex-end;
+  --tw-bg-opacity: 1;
+  font-size: 1.25rem;
+  line-height: 1.75rem
+}
+
+.connect-w {
+  background-color: "black" !important;
+  display: flex;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: white;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  padding: 0.6rem 1rem;
+  width: 120%;
+  --tw-border-opacity: 1;
+  border-color: rgb(53 55 64 / var(--tw-border-opacity));
+}
+
+.connect-w>span {
+  margin-top: 0.4rem;
+  margin-right: 1rem;
 }
 
 ::-webkit-scrollbar {

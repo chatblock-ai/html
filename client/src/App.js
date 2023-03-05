@@ -13,24 +13,21 @@ import { auth } from './firebase'
 const App = () => {
   const [user] = useAuthState(auth)
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Chatblockai />} exact path="/" />
-        <Route element={<ChatInit />} exact path="/init" />
-        <Route
-          element={<DepositsAndWithdrawals />}
-          exact
-          path="/deposits-and-withdrawals"
-        />
-      </Routes>
-      {/* <ChatContextProvider>
-        <WalletConnectionProvider defaultNetwork={'bnbt'}>
-          <div>
-            {user ? <Home /> : <SignIn />}
-          </div>
+        <ChatContextProvider>
+          <WalletConnectionProvider defaultNetwork={'bsc testnet'}>
+           <BrowserRouter>
+             <Routes>
+              <Route element={<Chatblockai />} exact path="/" />
+              <Route element={<ChatInit />} exact path="/init" />
+              <Route
+                element={<DepositsAndWithdrawals />}
+                exact
+                path="/deposits-and-withdrawals"
+              />
+            </Routes>
+            </BrowserRouter>
         </WalletConnectionProvider>
-      </ChatContextProvider > */}
-    </BrowserRouter>
+      </ChatContextProvider >
   )
 }
 

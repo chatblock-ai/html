@@ -14,9 +14,12 @@ export default function useErc20(erc20Address, signer) {
   const getRetrieveTokenBalance = useCallback(async (account) => {
     return await contract.balanceOf(account);
   })
-  const approve = useCallback(async (spender, amount) => {
+  // const approve = useCallback(async (spender, amount) => {
+  //   return await contract.approve(spender, amount)
+  // })
+  const approve = async (spender, amount) => {
     return await contract.approve(spender, amount)
-  })
+  };
   return {
     getRetrieveTokenSymbol,
     getRetrieveTokenDecimal,

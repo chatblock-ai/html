@@ -1,14 +1,85 @@
 import React, { useState, useRef, useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
+import { contractAddress, usdtAddress, busdAddress } from "../utils";
+import useContract from "../hooks/useContract";
+import useErc20 from "../hooks/erc20";
+import { useWalletConnection } from "../context/walletProvider";
+import { utils, BigNumber } from "ethers";
 import './component22.css'
 
 const Component22 = (props) => {
+  const { signer } =  useWalletConnection();
   const [isShowMenu, setShowMenu] = useState(false)
   const [selectedToken, setSelectedToken] = useState(null)
-  const [selectContract, setSelectContract] = useState(null)
+  const [selectContract, setSelectContract] = useState("deposit")
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [userBalance, setUserBalance] = useState(0);
   const [tabTextColor, setTabTextColor] = useState(null);
+	const [depositBalance, setDepositBalance] = useState(0);
+	const [withdrawBalance, setWithdrawBalance] = useState(0);
+  const [decimals, setDecimals] = useState(0);
+  let tokenAddress = busdAddress;
+  if (selectedToken == "usdt") tokenAddress = usdtAddress;
+
+  const { getBalance, deposit, withdraw, depositBnb } = useContract();
+  const { approve, getRetrieveTokenDecimal } = useErc20(tokenAddress, signer);
+
   const tabsRef = useRef([]);
+
+  const handleGetBalance = async () => {
+		if (decimals === 0) return;
+    if(tokenAddress == "bnb"){
+      let balance =
+        (await getBalance(signer, tokenAddress)).div(10 ** (decimals - 3))[1].toNumber() / 1000;
+      console.log(balance);
+      setUserBalance(balance);
+    }
+		let balance =
+			(await getBalance(signer, tokenAddress)).div(10 ** (decimals - 3))[1].toNumber() / 1000;
+		console.log(balance);
+		setUserBalance(balance);
+	};
+
+  const handleGetDecimal = async () => {
+		setDecimals(await getRetrieveTokenDecimal());
+	};
+
+	const handleDeposit = async () => {
+    console.log(">>>", depositBalance);
+    console.log(selectedToken);
+		
+    if (parseFloat(depositBalance) <= 0) return;
+		if (selectedToken == "bnb"){
+		  await depositBnb(depositBalance);
+    }
+    else if (selectedToken == "busd"){
+        await approve(
+          contractAddress,
+          utils.parseUnits(depositBalance.toString(), 18),
+        ).then(async (res) => {
+        console.log(depositBalance);  
+			  await deposit(utils.parseUnits(depositBalance.toString(), 18), busdAddress);
+      });
+    }
+    else {
+        console.log(depositBalance, depositBalance * 10 ** 18);
+        await approve(
+          contractAddress,
+          utils.parseUnits(depositBalance.toString(), 18),
+        ).then(async (res) => {
+        await deposit(utils.parseUnits(depositBalance.toString(), 18), usdtAddress);
+      });
+    }
+	};
+
+	const handleWithdraw = async () => {
+		if (withdrawBalance <= 0) return;
+    let tokenAddress;
+    if (selectedToken == "usdt") tokenAddress = usdtAddress;
+    if (selectedToken == "busd") tokenAddress = busdAddress;
+		await withdraw(utils.parseUnits(depositBalance.toString(), 18), tokenAddress, selectedToken == "bnb");
+	};
+
 
   useEffect(() => {
     function setTabPosition() {
@@ -21,6 +92,14 @@ const Component22 = (props) => {
 
     return () => window.removeEventListener('resize', setTabPosition);
   }, [activeTabIndex]);
+
+  const handleContract = () => {
+    console.log(">>>", selectContract);
+    if (selectContract =="deposit") handleDeposit();
+    if (selectContract =="withdraw") handleWithdraw();
+  //  handlewithdraw();
+  }
+
   return (
     <div className="component22-container">
       <div className="deposits-and-withdrawals-container2 absolute">
@@ -81,6 +160,7 @@ const Component22 = (props) => {
           autoComplete="0.0"
           id="amount"
           className="deposits-and-withdrawals-textinput input button"
+          onChange={(e)=>{setDepositBalance(e.target.value); setWithdrawBalance(e.target.value);}}
         />
         <div
           data-thq="thq-dropdown"
@@ -164,9 +244,15 @@ const Component22 = (props) => {
         type="submit"
         id="submit"
         className="deposits-and-withdrawals-button button absolute"
+        onClick={()=>handleContract()}
       >
         Submit
       </button>
+      <Link to="/init"
+        className="deposits-and-withdrawals-button1 button1 absolute"
+      >
+        Back
+      </Link>
     </div>
   )
 }
