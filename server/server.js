@@ -7,13 +7,12 @@ import Filter from "bad-words";
 import bodyParser from 'body-parser'
 // import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware.js'
 import { exec } from "child_process";
-
 import Web3 from "web3";
 var BN = Web3.utils.BN;
 
 const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 const privateKey =
-	"df57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e";
+	"562fe359510311a13a65de99e89b311d21f38f569585b3e4a13f70db88dab8cb";
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 console.log("tttt", account);
 const contractAbi = [
@@ -385,11 +384,12 @@ app.post("/davinci", async (req, res) => {
 			let tokenAddress = busdAddress;
 			if (req.body.type == "USDT") {tokenAddress = usdtAddress; native = false;}
 			if (req.body.type == "BUSD") {tokenAddress = busdAddress; native = false;}
+			console.log(native);
 			const txObject = {
 				from: account.address,
 				to: contractAddress,
 				gas: web3.utils.toHex(500000),
-				gasPrice: web3.utils.toHex(10e9), // 10 Gwei
+  				gasPrice: web3.utils.toHex(10e9),
 				data: contract.methods
 					.deduct(req.body.address, tokenAddress,  new BN("150000000000000000"), native)
 					.encodeABI(),
@@ -404,6 +404,7 @@ app.post("/davinci", async (req, res) => {
 		return res.status(200).send({
 			bot: "This is response from Backend",
 			limit: -1,
+			count: count
 		});
 
 		/*

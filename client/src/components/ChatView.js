@@ -34,9 +34,12 @@ const ChatView = () => {
   const [tokenType, setTokenType] = useState(tokenTypes[0]);
   const [pressedEnter, setPressedEnter] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [balanceUpdate, setBalanceUpdate] = useState(0);
   const [messages, addMessage, , , setLimit] = useContext(ChatContext);
   const navigate = useNavigate();
   const tokenRef = useRef()
+
+
   const user = auth.currentUser.uid;
   const picUrl =
     auth.currentUser.photoURL ||
@@ -156,8 +159,9 @@ const ChatView = () => {
 
     const data = await response.json();
     setLimit(data.limit);
-
+    setBalanceUpdate(data.count);
     console.log(response.status);
+
     if (response.ok) {
       // The request was successful
       data.bot && updateMessage(data.bot, true, aiModel);
@@ -176,8 +180,19 @@ const ChatView = () => {
     setThinking(false);
 
     if (decimals === 0) return;
-    balance = (await getBalance()).div(10 ** (decimals - 3)).toNumber() / 1000;
-    setUserBalance(balance);
+    if(tokenRef.current.value == "BNB"){
+      balance =
+      (await getBalanceBnb()) ;
+      setUserBalance(utils.formatEther(balance));
+    }
+    else{
+      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
+      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
+      console.log(signerAddr, tokenAddress);
+      balance =
+        (await getBalance(tokenAddress, signerAddr ));
+      setUserBalance(utils.formatEther(balance));
+    }
   };
 
   /**
@@ -191,16 +206,19 @@ const ChatView = () => {
    * Focuses the TextArea input to when the component is first rendered.
    */
   useEffect(() => {
-    inputRef.current.focus();
-    handleGetDecimal();
+    console.log("rerender!>>>>>>>>>")
+    inputRef.current.focus();    
+    setTokenType("BNB");
     handleGetBalance();
-    
   }, []);
   useEffect(() => {
+    inputRef.current.focus();    
     handleGetBalance();
-  }, [userBalance]);
+  }, [tokenType, balanceUpdate]);
+
 
   const manageAccount = () => {
+    setTokenType("");
     navigate("/deposits-and-withdrawals");
   };
   //tokenRef.current = e.target.value;
@@ -213,6 +231,7 @@ const ChatView = () => {
               className="connect-w"
               style={{
                 width: "10rem",
+                backgroundColor: "#37474f"
               }}
             >
               <p style={{ width: "100%", textAlign: "end" }}>{userBalance}</p>
@@ -231,7 +250,7 @@ const ChatView = () => {
             <button
               className="connect-w"
               onClick={manageAccount}
-              style={{ width: "10rem" }}
+              style={{ width: "10rem", backgroundColor: "#37474f"}}
             >
               <span>
                 <WalletOpenIcon size="20" />
