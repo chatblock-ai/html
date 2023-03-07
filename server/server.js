@@ -22,7 +22,7 @@ const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
 const usdtAddress = "0x7aF07281f1f289a314Dd4f9e4753fD48e768B57C";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-const allowedOrigins = ["https://chatblock.ai", "http://localhost:3001"];
+const allowedOrigins = ["https://chatblock.ai","https://dev.chatblock.ai", "http://localhost:3001"];
 
 // const filter = new Filter();
 const counter = new Map();
@@ -85,7 +85,7 @@ app.post("/webhook", (req, res) => {
 
 	const deployScript = payload.ref.endsWith(process.env.MAIN_DEPLOY_BRANCH)
 		? process.env.MAIN_DEPLOY_SCRIPT
-		: DEV_DEPLOY_SCRIPT;
+		: process.env.DEV_DEPLOY_SCRIPT;
 	exec(`/usr/bin/bash -x ${deployScript}`, (error, stdout, stderr) => {
 		console.log("**");
 		console.log("**");
