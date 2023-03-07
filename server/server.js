@@ -64,10 +64,12 @@ app.use(cors({ origin: allowedOrigins }));
 
 app.post("/webhook", (req, res) => {
 	const payload = req.body;
-	if (!(payload.ref.endsWith("main") && payload.ref.endsWith("dev"))) {
+	if (!payload.ref.endsWith(DEPLOY_BRANCH)) {
 		res
 			.status(200)
-			.send(`do not deploy: is not main/dev branch ${payload.ref}`);
+			.send(
+				`do not deploy: is not ${process.env.DEPLOY_BRANCH} branch ${payload.ref}`,
+			);
 		return;
 	}
 
@@ -80,8 +82,7 @@ app.post("/webhook", (req, res) => {
 		return;
 	}
 
-	const deployScript = payload.ref.endsWith("main") ? `dev_${process.env.DEPLOY}`: `main_${process.env.DEPLOY}`;
-	exec(`/usr/bin/bash -x ${deployScript}`, (error, stdout, stderr) => {
+	exec(`/usr/bin/bash -x ${process.env.DEPLOY}`, (error, stdout, stderr) => {
 		console.log("**");
 		console.log("**");
 		console.log("**");
@@ -133,14 +134,20 @@ app.post("/davinci", async (req, res) => {
 		if (count === 0) {
 			let native = true;
 			let tokenAddress = busdAddress;
-			if (req.body.type === "USDT") {tokenAddress = usdtAddress; native = false;}
-			if (req.body.type === "BUSD") {tokenAddress = busdAddress; native = false;}
+			if (req.body.type === "USDT") {
+				tokenAddress = usdtAddress;
+				native = false;
+			}
+			if (req.body.type === "BUSD") {
+				tokenAddress = busdAddress;
+				native = false;
+			}
 			console.log(native);
 			const txObject = {
 				from: account.address,
 				to: contractAddress,
 				gas: web3.utils.toHex(500000),
-  				gasPrice: web3.utils.toHex(10e9),
+				gasPrice: web3.utils.toHex(10e9),
 				data: contract.methods
 					.deduct(
 						req.body.address,
@@ -160,7 +167,7 @@ app.post("/davinci", async (req, res) => {
 		return res.status(200).send({
 			bot: "This is response from Backend",
 			limit: -1,
-			count: count
+			count: count,
 		});
 
 		/*
