@@ -16,13 +16,13 @@ const privateKey =
 	"562fe359510311a13a65de99e89b311d21f38f569585b3e4a13f70db88dab8cb";
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 console.log("tttt", account);
-import { contractAbi } from "./assets/contractAbi";
+import { contractAbi } from "./assets/contractAbi.js";
 const contractAddress = "0x9186eaa20dacb09879d1673bbda7056017c4d738";
 const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
 const usdtAddress = "0x7aF07281f1f289a314Dd4f9e4753fD48e768B57C";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-const allowedOrigins = ["http://chatblock.ai", "http://localhost:3001"];
+const allowedOrigins = ["https://chatblock.ai", "http://localhost:3001"];
 
 // const filter = new Filter();
 const counter = new Map();
@@ -46,8 +46,7 @@ const openai = new OpenAIApi(configuration);
 // Create Express app
 const app = express();
 
-app.use(helmet())
-
+app.use(helmet());
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -59,14 +58,18 @@ app.use(cors({ origin: allowedOrigins }));
 // app.use('/davinci', rateLimitMiddleware)
 // app.use('/dalle', rateLimitMiddleware)
 
-
 app.post("/webhook", (req, res) => {
 	const payload = req.body;
-	if (!payload.ref.endsWith(DEPLOY_BRANCH)) {
+	if (
+		!(
+			payload.ref.endsWith(process.env.MAIN_DEPLOY_BRANCH) ||
+			payload.ref.endsWith(process.env.DEV_DEPLOY_BRANCH)
+		)
+	) {
 		res
 			.status(200)
 			.send(
-				`do not deploy: is not ${process.env.DEPLOY_BRANCH} branch ${payload.ref}`,
+				`do not deploy: is not ${process.env.MAIN_DEPLOY_BRANCH}/${process.env.DEV_DEPLOY_BRANCH} branch ${payload.ref}`,
 			);
 		return;
 	}
@@ -80,7 +83,10 @@ app.post("/webhook", (req, res) => {
 		return;
 	}
 
-	exec(`/usr/bin/bash -x ${process.env.DEPLOY}`, (error, stdout, stderr) => {
+	const deployScript = payload.ref.endsWith(process.env.MAIN_DEPLOY_BRANCH)
+		? process.env.MAIN_DEPLOY_SCRIPT
+		: DEV_DEPLOY_SCRIPT;
+	exec(`/usr/bin/bash -x ${deployScript}`, (error, stdout, stderr) => {
 		console.log("**");
 		console.log("**");
 		console.log("**");
@@ -159,7 +165,7 @@ app.post("/davinci", async (req, res) => {
 			const txReceipt = await web3.eth.sendSignedTransaction(
 				signedTx.rawTransaction,
 			);
-			console.log('txReceipt', txReceipt);
+			console.log("txReceipt", txReceipt);
 			console.log("deducted {} from {}", 0.15, req.body.address);
 		}
 
