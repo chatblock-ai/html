@@ -3,278 +3,28 @@ import cors from "cors";
 import crypto from "crypto";
 import { Configuration, OpenAIApi } from "openai";
 import * as dotenv from "dotenv";
-import Filter from "bad-words";
-import bodyParser from 'body-parser'
+// import Filter from "bad-words";
+import bodyParser from "body-parser";
 // import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware.js'
 import { exec } from "child_process";
 
 import Web3 from "web3";
-var BN = Web3.utils.BN;
+const BN = Web3.utils.BN;
 
 const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 const privateKey =
 	"df57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e";
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 console.log("tttt", account);
-const contractAbi = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "selectedToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "native",
-				"type": "bool"
-			}
-		],
-		"name": "deduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "selectedToken",
-				"type": "address"
-			}
-		],
-		"name": "deposit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "depositBnb",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_from",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			}
-		],
-		"name": "NewDeposit",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "selectedToken",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "native",
-				"type": "bool"
-			}
-		],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			}
-		],
-		"name": "Withdrawal",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_Value",
-				"type": "uint256"
-			}
-		],
-		"name": "WithdrawalOwner",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "selectedToken",
-				"type": "address"
-			}
-		],
-		"name": "withdrawOwner",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_tokenAddress",
-				"type": "address"
-			}
-		],
-		"name": "getBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getBalanceBnb",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "token",
-		"outputs": [
-			{
-				"internalType": "contract IERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-];
+import { contractAbi } from "./assets/contractAbi";
 const contractAddress = "0x9186eaa20dacb09879d1673bbda7056017c4d738";
 const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
 const usdtAddress = "0x7aF07281f1f289a314Dd4f9e4753fD48e768B57C";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-const allowedOrigins = ['http://eyucoder.com', 'https://chatgpt.eyucoder.com', 'http://chatblock.ai', "http://localhost:3001"]
+const allowedOrigins = ["http://chatblock.ai", "http://localhost:3001"];
 
-const filter = new Filter();
+// const filter = new Filter();
 const counter = new Map();
 
 // Load environment variables from .env file
@@ -299,12 +49,10 @@ const app = express();
 // Parse JSON in request body
 app.use(express.json());
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(cors({
-	origin: "http://localhost:3001"
-}));
+app.use(cors({ origin: allowedOrigins }));
 
 // ratelimiter middleware function
 // app.use('/davinci', rateLimitMiddleware)
@@ -317,21 +65,24 @@ app.use(cors({
 
 app.post("/webhook", (req, res) => {
 	const payload = req.body;
-	if (!payload.ref.endsWith("main")) {
-		res.status(200).send(`do not deploy: is not main branch ${payload.ref}`);
+	if (!(payload.ref.endsWith("main") && payload.ref.endsWith("dev"))) {
+		res
+			.status(200)
+			.send(`do not deploy: is not main/dev branch ${payload.ref}`);
 		return;
 	}
 
-	const signature = req.headers['x-hub-signature-256'];
-	console.log('signature', signature);
-	const secret = Buffer.from(process.env.SECRET_TOKEN, 'utf8');
-	 
-	 if (!verifySignature(payload, signature, secret)) {
-		res.status(401).send('Signatures didn\'t match');
-		return;
-	  }
+	const signature = req.headers["x-hub-signature-256"];
+	console.log("signature", signature);
+	const secret = Buffer.from(process.env.SECRET_TOKEN, "utf8");
 
-	exec(`/usr/bin/bash -x ${process.env.DEPLOY}`, (error, stdout, stderr) => {
+	if (!verifySignature(payload, signature, secret)) {
+		res.status(401).send("Signatures didn't match");
+		return;
+	}
+
+	const deployScript = payload.ref.endsWith("main") ? `dev_${process.env.DEPLOY}`: `main_${process.env.DEPLOY}`;
+	exec(`/usr/bin/bash -x ${deployScript}`, (error, stdout, stderr) => {
 		console.log("**");
 		console.log("**");
 		console.log("**");
@@ -383,15 +134,26 @@ app.post("/davinci", async (req, res) => {
 		if (count === 0) {
 			let native = true;
 			let tokenAddress = busdAddress;
-			if (req.body.type == "USDT") {tokenAddress = usdtAddress; native = false;}
-			if (req.body.type == "BUSD") {tokenAddress = busdAddress; native = false;}
+			if (req.body.type == "USDT") {
+				tokenAddress = usdtAddress;
+				native = false;
+			}
+			if (req.body.type == "BUSD") {
+				tokenAddress = busdAddress;
+				native = false;
+			}
 			const txObject = {
 				from: account.address,
 				to: contractAddress,
 				gas: web3.utils.toHex(500000),
 				gasPrice: web3.utils.toHex(10e9), // 10 Gwei
 				data: contract.methods
-					.deduct(req.body.address, tokenAddress,  new BN("150000000000000000"), native)
+					.deduct(
+						req.body.address,
+						tokenAddress,
+						new BN("150000000000000000"),
+						native,
+					)
 					.encodeABI(),
 			};
 			const signedTx = await account.signTransaction(txObject);
