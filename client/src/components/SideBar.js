@@ -43,7 +43,7 @@ const SideBar = () => {
         <div className={`sidebar__app-logo ${!open && "scale-0 hidden"} `}>
           <span className='w-8 h-8'><img src={bot} className="w-[40px]" alt="" /></span>
         </div>
-        <h1 className={`sidebar__app-title ${!open && "scale-0 hidden"}`}>
+        <h1 className={`font-vt sidebar__app-title ${!open && "scale-0 hidden"}`}>
           ChatBlock.ai
         </h1>
         <div className='sidebar__btn-close' onClick={() => setOpen(!open)}>
@@ -56,7 +56,7 @@ const SideBar = () => {
           <div className='nav__icons'>
             <MdAdd />
           </div>
-          <h1 className={`${!open && "hidden"}`}>New chat</h1>
+          <h1 className={`font-vt ${!open && "hidden"}`}>New chat</h1>
         </span>
       </div>
       <div className="nav__bottom">

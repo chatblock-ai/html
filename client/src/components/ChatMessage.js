@@ -44,7 +44,7 @@ const ChatMessage = (props) => {
 
       <div className="message__pic">
         {
-          ai ? <MdComputer /> :
+          ai ? <img className='cover w-10 h-10 rounded-full' loading='lazy' src='/images/pc-pop-art.png' alt='profile pic' /> :
             <img className='cover w-10 h-10 rounded-full' loading='lazy' src={picUrl} alt='profile pic' />
         }
       </div>
