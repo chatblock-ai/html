@@ -62,8 +62,8 @@ app.post("/webhook", (req, res) => {
 	const payload = req.body;
 	if (
 		!(
-			payload.ref.endsWith(MAIN_DEPLOY_BRANCH) ||
-			payload.ref.endsWith(DEV_DEPLOY_BRANCH)
+			payload.ref.endsWith(process.env.MAIN_DEPLOY_BRANCH) ||
+			payload.ref.endsWith(process.env.DEV_DEPLOY_BRANCH)
 		)
 	) {
 		res
