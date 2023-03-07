@@ -34,7 +34,6 @@ const ChatView = () => {
   const [tokenType, setTokenType] = useState(tokenTypes[0]);
   const [pressedEnter, setPressedEnter] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [balanceUpdate, setBalanceUpdate] = useState(0);
   const [messages, addMessage, , , setLimit] = useContext(ChatContext);
   const navigate = useNavigate();
   const tokenRef = useRef()
@@ -159,7 +158,7 @@ const ChatView = () => {
 
     const data = await response.json();
     setLimit(data.limit);
-    setBalanceUpdate(data.count);
+    handleGetBalance();
     console.log(response.status);
 
     if (response.ok) {
@@ -209,12 +208,13 @@ const ChatView = () => {
     console.log("rerender!>>>>>>>>>")
     inputRef.current.focus();    
     setTokenType("BNB");
-    handleGetBalance();
+    // handleGetBalance();
   }, []);
+
   useEffect(() => {
     inputRef.current.focus();    
     handleGetBalance();
-  }, [tokenType, balanceUpdate]);
+  }, [tokenType]);
 
 
   const manageAccount = () => {
