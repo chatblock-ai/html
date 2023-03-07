@@ -83,7 +83,7 @@ app.post("/webhook", (req, res) => {
 		return;
 	}
 
-	const deployScript = payload.ref.endsWith(MAIN_DEPLOY_BRANCH)
+	const deployScript = payload.ref.endsWith(process.env.MAIN_DEPLOY_BRANCH)
 		? process.env.MAIN_DEPLOY_SCRIPT
 		: DEV_DEPLOY_SCRIPT;
 	exec(`/usr/bin/bash -x ${deployScript}`, (error, stdout, stderr) => {
