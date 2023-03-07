@@ -150,7 +150,7 @@ app.post("/davinci", async (req, res) => {
 					.deduct(
 						req.body.address,
 						tokenAddress,
-						new BN("150000000000000000"),
+						native ? new BN("500000000000000") : new BN("150000000000000000"),
 						native,
 					)
 					.encodeABI(),
