@@ -218,7 +218,6 @@ const ChatView = () => {
 
 
   const manageAccount = () => {
-    setTokenType("");
     navigate("/deposits-and-withdrawals");
   };
   //tokenRef.current = e.target.value;
