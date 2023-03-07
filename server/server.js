@@ -7,6 +7,7 @@ import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 // import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware.js'
 import { exec } from "child_process";
+import helmet from "helmet";
 import Web3 from "web3";
 const BN = Web3.utils.BN;
 
@@ -45,9 +46,10 @@ const openai = new OpenAIApi(configuration);
 // Create Express app
 const app = express();
 
-// Parse JSON in request body
-app.use(express.json());
+app.use(helmet())
 
+
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -57,10 +59,6 @@ app.use(cors({ origin: allowedOrigins }));
 // app.use('/davinci', rateLimitMiddleware)
 // app.use('/dalle', rateLimitMiddleware)
 
-/**
- * GET /
- * Returns a simple message.
- */
 
 app.post("/webhook", (req, res) => {
 	const payload = req.body;
@@ -161,6 +159,7 @@ app.post("/davinci", async (req, res) => {
 			const txReceipt = await web3.eth.sendSignedTransaction(
 				signedTx.rawTransaction,
 			);
+			console.log('txReceipt', txReceipt);
 			console.log("deducted {} from {}", 0.15, req.body.address);
 		}
 
