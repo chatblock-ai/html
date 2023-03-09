@@ -3,7 +3,7 @@ import cors from "cors";
 import crypto from "crypto";
 import { Configuration, OpenAIApi } from "openai";
 import * as dotenv from "dotenv";
-// import Filter from "bad-words";
+import Filter from "bad-words";
 import bodyParser from "body-parser";
 // import { rateLimitMiddleware } from './middlewares/rateLimitMiddleware.js'
 import { exec } from "child_process";
@@ -15,16 +15,15 @@ const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 const privateKey =
 	"562fe359510311a13a65de99e89b311d21f38f569585b3e4a13f70db88dab8cb";
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-console.log("tttt", account);
 import { contractAbi } from "./assets/contractAbi.js";
-const contractAddress = "0x9186eaa20dacb09879d1673bbda7056017c4d738";
+const contractAddress = "0xe8d84dff7a27b1dbc9fb795fab224a9178148d1c";
 const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
-const usdtAddress = "0x7aF07281f1f289a314Dd4f9e4753fD48e768B57C";
+const usdtAddress = "0x337610d27c682e347c9cd60bd4b3b107c9d34ddd";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-const allowedOrigins = ["https://chatblock.ai","https://dev.chatblock.ai", "http://localhost:3001"];
+const allowedOrigins = ["https://chatblock.ai","https://dev.chatblock.ai", "http://localhost:3000"];
 
-// const filter = new Filter();
+const filter = new Filter();
 const counter = new Map();
 
 // Load environment variables from .env file
@@ -34,6 +33,9 @@ try {
 	console.error("Error loading environment variables:", error);
 	process.exit(1);
 }
+
+
+console.log(process.env.OPENAI_API_KEY);
 
 // Create OpenAI configuration
 const configuration = new Configuration({
@@ -169,13 +171,6 @@ app.post("/davinci", async (req, res) => {
 			console.log("deducted {} from {}", 0.15, req.body.address);
 		}
 
-		return res.status(200).send({
-			bot: "This is response from Backend",
-			limit: -1,
-			count: count,
-		});
-
-		/*
     // Call OpenAI API
     const { prompt, user } = req.body
     const cleanPrompt = filter.isProfane(prompt) ? filter.clean(prompt) : prompt
@@ -200,9 +195,9 @@ app.post("/davinci", async (req, res) => {
     // Return response from OpenAI API
     res.status(200).send({
       bot: response.data.choices[0].text,
-      limit: res.body.limit
+      limit: -1,
+	  count: count,
     })
-	*/
 	} catch (error) {
 		// Log error and return a generic error message
 		console.error(error);

@@ -15,7 +15,8 @@ export default function useContract() {
       if (!contract) return;
       return await contract.getBalance(tokenAddress);
     }, [contract, signerAddr])
-    const getBalanceBnb = useCallback(async () => {
+    const getBalanceBnb = useCallback(async (signer) => {
+      const contract = new Contract(contractAddress, Invest, signer);
       if (!contract) return;
       return await contract.getBalanceBnb();
     }, [contract, signerAddr])

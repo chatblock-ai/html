@@ -5,9 +5,6 @@
   "main": "server.js",
   "type": "module",
   "proxy": "http://localhost:3002",
-  "engines": {
-    "node": "v18.12.1"
-  },
   "scripts": {
     "start": "nodemon server",
     "server": "nodemon server"

@@ -36,7 +36,6 @@ const ChatView = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [messages, addMessage, , , setLimit] = useContext(ChatContext);
   const navigate = useNavigate();
-  const tokenRef = useRef()
 
 
   const user = auth.currentUser.uid;
@@ -51,15 +50,15 @@ const ChatView = () => {
   const handleGetBalance = async () => {
     //if (decimals === 0) return;
     let tokenAddress;
-    if(tokenRef.current.value == "BNB"){
+    if(tokenType == "BNB"){
       let balance =
-      (await getBalanceBnb()) ;
+      (await getBalanceBnb(signer)) ;
       console.log(balance);
       setUserBalance(utils.formatEther(balance));
     }
     else{
-      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
-      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
+      if (tokenType == "USDT") tokenAddress = usdtAddress;
+      else if (tokenType == "BUSD") tokenAddress = busdAddress;
       console.log(signerAddr, tokenAddress);
       let balance =
         (await getBalance(tokenAddress, signerAddr ));
@@ -101,98 +100,75 @@ const ChatView = () => {
    */
   const sendMessage = async (e) => {
     if (userBalance <= 0) {
-      setShowPrompt(!showPrompt);
+      setShowPrompt(true);
     } else {
       setShowPrompt(false);
     }
     e.preventDefault();
 
-    // get balance
-    let balance;
-    let tokenAddress;
-    if(tokenRef.current.value == "BNB"){
-      balance =
-      (await getBalanceBnb()) ;
-      setUserBalance(utils.formatEther(balance));
-    }
-    else{
-      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
-      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
-      console.log(signerAddr, tokenAddress);
-      balance =
-        (await getBalance(tokenAddress, signerAddr ));
-      setUserBalance(utils.formatEther(balance));
-    }
-
-    if (balance <= 0) {
+    if (userBalance <= 0) {
       alert("Low Balance");
       return;
     }
 
-    const newMsg = formValue;
-    const aiModel = selected;
+    try {
+      const newMsg = formValue;
+      const aiModel = selected;
 
-    const API_URL = process.env.REACT_APP_BASE_URL;
-    const resource = aiModel === options[0] ? "davinci" : "dalle";
-    const POST_URL = API_URL + resource;
-    console.log(POST_URL);
-    setThinking(true);
-    setFormValue("");
-    updateMessage(newMsg, false, aiModel);
-    
-    const bodyParam = {
-        address: signerAddr,
-        prompt: newMsg,
-        type: tokenRef.current.value,
-    }
-    console.log(bodyParam);
-    
-    const response = await fetch(POST_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "accepts":"application/json",
-      },
-      body: JSON.stringify(bodyParam),
-    });
+      const API_URL = process.env.REACT_APP_BASE_URL;
+      const resource = aiModel === options[0] ? "davinci" : "dalle";
+      const POST_URL = API_URL + resource;
+      console.log(POST_URL);
+      setThinking(true);
+      setFormValue("");
+      updateMessage(newMsg, false, aiModel);
+      
+      const bodyParam = {
+          address: signerAddr,
+          prompt: newMsg,
+          type: tokenType,
+          user: user
+      }
+      console.log(bodyParam);
+      
+      const response = await fetch(POST_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "accepts":"application/json",
+        },
+        body: JSON.stringify(bodyParam),
+      });
 
-    const data = await response.json();
-    setLimit(data.limit);
-    handleGetBalance();
-    console.log(response.status);
 
-    if (response.ok) {
-      // The request was successful
-      data.bot && updateMessage(data.bot, true, aiModel);
-    } else if (response.status === 429) {
+      const data = await response.json();
+      setLimit(data.limit);
+      handleGetBalance();
+      console.log(response.status);
+
+      if (response.ok) {
+        // The request was successful
+        data.bot && updateMessage(data.bot, true, aiModel);
+      } else if (response.status === 429) {
+        setThinking(false);
+      } else {
+        // The request failed
+        window.alert(`openAI is returning an error: ${
+          response.status + response.statusText
+        } 
+        please try again later`);
+        console.log(`Request failed with status code ${response.status}`);
+        setThinking(false);
+      }
+
       setThinking(false);
-    } else {
-      // The request failed
-      window.alert(`openAI is returning an error: ${
-        response.status + response.statusText
-      } 
-      please try again later`);
-      console.log(`Request failed with status code ${response.status}`);
-      setThinking(false);
-    }
 
-    setThinking(false);
-
-    if (decimals === 0) return;
-    if(tokenRef.current.value == "BNB"){
-      balance =
-      (await getBalanceBnb()) ;
-      setUserBalance(utils.formatEther(balance));
+      if (decimals === 0) return;
+      handleGetBalance();
+    } catch (err) {
+      console.log(err);
     }
-    else{
-      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
-      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
-      console.log(signerAddr, tokenAddress);
-      balance =
-        (await getBalance(tokenAddress, signerAddr ));
-      setUserBalance(utils.formatEther(balance));
-    }
-  };
+};
 
   /**
    * Scrolls the chat area to the bottom when the messages array is updated.
@@ -208,24 +184,23 @@ const ChatView = () => {
     console.log("rerender!>>>>>>>>>")
     inputRef.current.focus();    
     setTokenType("BNB");
-    // handleGetBalance();
   }, []);
 
   useEffect(() => {
     inputRef.current.focus();    
     handleGetBalance();
-  }, [tokenType]);
+  }, [tokenType, signer, isConnected]);
 
 
   const manageAccount = () => {
     navigate("/deposits-and-withdrawals");
   };
-  //tokenRef.current = e.target.value;
+
   if (isConnected)
     return (
       <div className="chatview">
         <main className="chatview__chatarea">
-          <div className="connect-wallet">
+          <div className="connect-wallet md:justify-end sm:justify-end justify-start">
             <div
               className="connect-w"
               style={{
@@ -240,7 +215,6 @@ const ChatView = () => {
               onChange={(e) => {setTokenType(e.target.value);  handleGetBalance();}}
               className="dropdown"
               style={{}}
-              ref={tokenRef}
             >
               <option>{tokenTypes[0]}</option>
               <option>{tokenTypes[1]}</option>
@@ -269,7 +243,7 @@ const ChatView = () => {
 
           <span ref={messagesEndRef} />
         </main>
-        <form className="form" onSubmit={sendMessage}>
+        <form className="form font-vt" onSubmit={sendMessage}>
           <select
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
