@@ -36,7 +36,6 @@ const ChatView = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [messages, addMessage, , , setLimit] = useContext(ChatContext);
   const navigate = useNavigate();
-  const tokenRef = useRef()
 
 
   const user = auth.currentUser.uid;
@@ -51,15 +50,15 @@ const ChatView = () => {
   const handleGetBalance = async () => {
     //if (decimals === 0) return;
     let tokenAddress;
-    if(tokenRef.current.value == "BNB"){
+    if(tokenType == "BNB"){
       let balance =
-      (await getBalanceBnb()) ;
+      (await getBalanceBnb(signer)) ;
       console.log(balance);
       setUserBalance(utils.formatEther(balance));
     }
     else{
-      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
-      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
+      if (tokenType == "USDT") tokenAddress = usdtAddress;
+      else if (tokenType == "BUSD") tokenAddress = busdAddress;
       console.log(signerAddr, tokenAddress);
       let balance =
         (await getBalance(tokenAddress, signerAddr ));
@@ -110,14 +109,14 @@ const ChatView = () => {
     // get balance
     let balance;
     let tokenAddress;
-    if(tokenRef.current.value == "BNB"){
+    if(tokenType == "BNB"){
       balance =
       (await getBalanceBnb()) ;
       setUserBalance(utils.formatEther(balance));
     }
     else{
-      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
-      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
+      if (tokenType == "USDT") tokenAddress = usdtAddress;
+      if (tokenType == "BUSD") tokenAddress = busdAddress;
       console.log(signerAddr, tokenAddress);
       balance =
         (await getBalance(tokenAddress, signerAddr ));
@@ -143,7 +142,7 @@ const ChatView = () => {
     const bodyParam = {
         address: signerAddr,
         prompt: newMsg,
-        type: tokenRef.current.value,
+        type: tokenType,
     }
     console.log(bodyParam);
     
@@ -179,14 +178,14 @@ const ChatView = () => {
     setThinking(false);
 
     if (decimals === 0) return;
-    if(tokenRef.current.value == "BNB"){
+    if(tokenType == "BNB"){
       balance =
       (await getBalanceBnb()) ;
       setUserBalance(utils.formatEther(balance));
     }
     else{
-      if (tokenRef.current.value == "USDT") tokenAddress = usdtAddress;
-      if (tokenRef.current.value == "BUSD") tokenAddress = busdAddress;
+      if (tokenType == "USDT") tokenAddress = usdtAddress;
+      if (tokenType == "BUSD") tokenAddress = busdAddress;
       console.log(signerAddr, tokenAddress);
       balance =
         (await getBalance(tokenAddress, signerAddr ));
@@ -208,19 +207,18 @@ const ChatView = () => {
     console.log("rerender!>>>>>>>>>")
     inputRef.current.focus();    
     setTokenType("BNB");
-    // handleGetBalance();
   }, []);
 
   useEffect(() => {
     inputRef.current.focus();    
     handleGetBalance();
-  }, [tokenType]);
+  }, [tokenType, signer, isConnected]);
 
 
   const manageAccount = () => {
     navigate("/deposits-and-withdrawals");
   };
-  //tokenRef.current = e.target.value;
+
   if (isConnected)
     return (
       <div className="chatview">
@@ -240,7 +238,6 @@ const ChatView = () => {
               onChange={(e) => {setTokenType(e.target.value);  handleGetBalance();}}
               className="dropdown"
               style={{}}
-              ref={tokenRef}
             >
               <option>{tokenTypes[0]}</option>
               <option>{tokenTypes[1]}</option>

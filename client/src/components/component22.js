@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { contractAddress, usdtAddress, busdAddress } from "../utils";
 import useContract from "../hooks/useContract";
 import useErc20 from "../hooks/erc20";
@@ -18,6 +18,8 @@ const Component22 = (props) => {
 	const [depositBalance, setDepositBalance] = useState(0);
 	const [withdrawBalance, setWithdrawBalance] = useState(0);
   const [decimals, setDecimals] = useState(0);
+
+  const navigate = useNavigate()
   let tokenAddress = busdAddress;
   if (selectedToken == "usdt") tokenAddress = usdtAddress;
 
@@ -79,6 +81,10 @@ const Component22 = (props) => {
     if (selectedToken == "busd") tokenAddress = busdAddress;
 		await withdraw(utils.parseUnits(depositBalance.toString(), 18), tokenAddress, selectedToken == "bnb");
 	};
+
+  const back = () => {
+    navigate('/init')
+  }
 
 
   useEffect(() => {
@@ -248,11 +254,11 @@ const Component22 = (props) => {
       >
         Submit
       </button>
-      <Link to="/init"
+      <button onClick={() => back()}
         className="deposits-and-withdrawals-button1 button1 absolute"
       >
         Back
-      </Link>
+      </button>
     </div>
   )
 }
