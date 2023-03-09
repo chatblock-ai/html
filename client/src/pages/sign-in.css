@@ -1,82 +1,91 @@
 .sign-in-container {
-    width: 100%;
-    display: flex;
-    overflow: auto;
-    min-height: 100vh;
-    align-items: center;
-    flex-direction: column;
-    background-size: cover;
-    justify-content: center;
-    background-image: url("../../public/playground_assets/bg-1500w.png");
-  }
-  .sign-in-image {
-    width: auto;
-    height: auto;
-    object-fit: cover;
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  background-size: cover;
+  justify-content: center;
+  background-image: url("/playground_assets/bg-1500w.png");
+}
+.sign-in-image {
+  width: 15%;
+  height: auto;
+  margin-top: 1%;
+  object-fit: cover;
+}
+.sign-in-image1 {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-color: rgba(120, 120, 120, 0);
+  border-style: dashed;
+  border-width: 2px;
+  object-position: center;
+}
+.sign-in-container1 {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 35%;
+  height: 9%;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  margin-top: 34%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0%;
+  justify-content: center;
+}
+.sign-in-image2 {
+  width: 28%;
+  height: auto;
+  align-self: flex-start;
+  object-fit: cover;
+}
+.sign-in-image3 {
+  width: 51%;
+  align-self: flex-end;
+  object-fit: cover;
+}
+.sign-in-image4 {
+  width: 5%;
+  align-self: flex-start;
+  object-fit: cover;
+  margin-left: 33%;
+  margin-bottom: var(--dl-space-space-fiveunits);
+}
+.sign-in-image5 {
+  width: 27%;
+  align-self: flex-start;
+  object-fit: cover;
+}
+.sign-in-image6 {
+  width: 35%;
+  object-fit: cover;
+  margin-left: 10%;
+  margin-bottom: 4%;
+}
+.sign-in-image7 {
+  width: 100%;
+  height: auto;
+  margin-top: var(--dl-space-space-twounits);
+  object-fit: cover;
+}
+@media(max-width: 479px) {
+  .sign-in-image1 {
+    width: 479px;
+    height: 411px;
   }
   .sign-in-container1 {
-    flex: 0 0 auto;
-    width: auto;
-    height: auto;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    left: 0px;
+    right: 0px;
+    width: 80%;
+    bottom: 26%;
+    height: 15%;
+    margin: auto;
+    position: absolute;
   }
-  .sign-in-container2 {
-    flex: 0 0 auto;
-    width: auto;
-    height: auto;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  .sign-in-container3 {
-    flex: 0 0 auto;
-    width: 905px;
-    height: auto;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-  .sign-in-image1 {
-    width: 1005px;
-    height: 350px;
-    object-fit: cover;
-  }
-  .sign-in-image2 {
-    width: 30%;
-    align-self: flex-start;
-    object-fit: cover;
-  }
-  .sign-in-image3 {
-    width: 45%;
-    align-self: flex-end;
-    object-fit: cover;
-  }
-  .sign-in-image4 {
-    width: 4%;
-    align-self: flex-start;
-    object-fit: cover;
-    margin-left: 33%;
-    margin-bottom: var(--dl-space-space-fiveunits);
-  }
-  .sign-in-image5 {
-    width: 30%;
-    object-fit: cover;
-    margin-left: 10%;
-    margin-bottom: 4%;
-  }
-  .sign-in-image6 {
-    width: 100%;
-    height: auto;
-    margin-top: var(--dl-space-space-twounits);
-    object-fit: cover;
-  }
-  @media(max-width: 479px) {
-    .sign-in-image1 {
-      width: 479px;
-      height: 411px;
-    }
-  }
-  
+}
