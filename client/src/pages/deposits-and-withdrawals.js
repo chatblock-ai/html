@@ -17,7 +17,7 @@ const DepositsAndWithdrawals = (props) => {
         />
       </Helmet>
       <div className="deposits-and-withdrawals-container1">
-        <Link to="/sign-in" className="deposits-and-withdrawals-navlink">
+        <Link to="/init" className="deposits-and-withdrawals-navlink">
           <img
             alt="Home button"
             src="/playground_assets/simple-home-with-pixel-art-style_475147-414%20%5B1%5D-modified-300w.png"
