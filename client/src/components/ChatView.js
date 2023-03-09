@@ -106,92 +106,69 @@ const ChatView = () => {
     }
     e.preventDefault();
 
-    // get balance
-    let balance;
-    let tokenAddress;
-    if(tokenType == "BNB"){
-      balance =
-      (await getBalanceBnb()) ;
-      setUserBalance(utils.formatEther(balance));
-    }
-    else{
-      if (tokenType == "USDT") tokenAddress = usdtAddress;
-      if (tokenType == "BUSD") tokenAddress = busdAddress;
-      console.log(signerAddr, tokenAddress);
-      balance =
-        (await getBalance(tokenAddress, signerAddr ));
-      setUserBalance(utils.formatEther(balance));
-    }
-
-    if (balance <= 0) {
+    if (userBalance <= 0) {
       alert("Low Balance");
       return;
     }
 
-    const newMsg = formValue;
-    const aiModel = selected;
+    try {
+      const newMsg = formValue;
+      const aiModel = selected;
 
-    const API_URL = process.env.REACT_APP_BASE_URL;
-    const resource = aiModel === options[0] ? "davinci" : "dalle";
-    const POST_URL = API_URL + resource;
-    console.log(POST_URL);
-    setThinking(true);
-    setFormValue("");
-    updateMessage(newMsg, false, aiModel);
-    
-    const bodyParam = {
-        address: signerAddr,
-        prompt: newMsg,
-        type: tokenType,
-    }
-    console.log(bodyParam);
-    
-    const response = await fetch(POST_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "accepts":"application/json",
-      },
-      body: JSON.stringify(bodyParam),
-    });
+      const API_URL = process.env.REACT_APP_BASE_URL;
+      const resource = aiModel === options[0] ? "davinci" : "dalle";
+      const POST_URL = API_URL + resource;
+      console.log(POST_URL);
+      setThinking(true);
+      setFormValue("");
+      updateMessage(newMsg, false, aiModel);
+      
+      const bodyParam = {
+          address: signerAddr,
+          prompt: newMsg,
+          type: tokenType,
+          user: user
+      }
+      console.log(bodyParam);
+      
+      const response = await fetch(POST_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "accepts":"application/json",
+        },
+        body: JSON.stringify(bodyParam),
+      });
 
-    const data = await response.json();
-    setLimit(data.limit);
-    handleGetBalance();
-    console.log(response.status);
 
-    if (response.ok) {
-      // The request was successful
-      data.bot && updateMessage(data.bot, true, aiModel);
-    } else if (response.status === 429) {
+      const data = await response.json();
+      setLimit(data.limit);
+      handleGetBalance();
+      console.log(response.status);
+
+      if (response.ok) {
+        // The request was successful
+        data.bot && updateMessage(data.bot, true, aiModel);
+      } else if (response.status === 429) {
+        setThinking(false);
+      } else {
+        // The request failed
+        window.alert(`openAI is returning an error: ${
+          response.status + response.statusText
+        } 
+        please try again later`);
+        console.log(`Request failed with status code ${response.status}`);
+        setThinking(false);
+      }
+
       setThinking(false);
-    } else {
-      // The request failed
-      window.alert(`openAI is returning an error: ${
-        response.status + response.statusText
-      } 
-      please try again later`);
-      console.log(`Request failed with status code ${response.status}`);
-      setThinking(false);
-    }
 
-    setThinking(false);
-
-    if (decimals === 0) return;
-    if(tokenType == "BNB"){
-      balance =
-      (await getBalanceBnb()) ;
-      setUserBalance(utils.formatEther(balance));
+      if (decimals === 0) return;
+      handleGetBalance();
+    } catch (err) {
+      console.log(err);
     }
-    else{
-      if (tokenType == "USDT") tokenAddress = usdtAddress;
-      if (tokenType == "BUSD") tokenAddress = busdAddress;
-      console.log(signerAddr, tokenAddress);
-      balance =
-        (await getBalance(tokenAddress, signerAddr ));
-      setUserBalance(utils.formatEther(balance));
-    }
-  };
+};
 
   /**
    * Scrolls the chat area to the bottom when the messages array is updated.
