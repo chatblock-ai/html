@@ -100,7 +100,7 @@ const ChatView = () => {
    */
   const sendMessage = async (e) => {
     if (userBalance <= 0) {
-      setShowPrompt(!showPrompt);
+      setShowPrompt(true);
     } else {
       setShowPrompt(false);
     }
