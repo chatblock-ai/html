@@ -10,26 +10,25 @@ const DepositsAndWithdrawals = (props) => {
   return (
     <div className="deposits-and-withdrawals-container">
       <Helmet>
-        <title>Deposits-and-Withdrawals - Miniature Spherical Gorilla</title>
+        <title>Deposits and Withdrawals</title>
         <meta
           property="og:title"
           content="Deposits-and-Withdrawals - Miniature Spherical Gorilla"
         />
       </Helmet>
-      <div className="deposits-and-withdrawals-container1">
-        <Link to="/init" className="deposits-and-withdrawals-navlink">
-          <img
-            alt="Home button"
-            src="/playground_assets/simple-home-with-pixel-art-style_475147-414%20%5B1%5D-modified-300w.png"
-            className="deposits-and-withdrawals-image"
-          />
-        </Link>
+    <div className="deposits-and-withdrawals-container">
+      <Link to="/chatblockai" className="deposits-and-withdrawals-navlink">
+        <img
+          alt="image"
+          src="/playground_assets/simple-home-with-pixel-art-style_475147-414%20%5B1%5D-modified-300w.png"
+          className="deposits-and-withdrawals-image"
+        />
+      </Link>
         <Component22></Component22>
-      </div>
       <img
         alt="image"
         src="/playground_assets/layers%20%5B6%5D-200h.png"
-        className="deposits-and-withdrawals-image4"
+        className="deposits-and-withdrawals-image1"
       />
     </div>
   )
