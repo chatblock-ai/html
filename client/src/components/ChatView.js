@@ -223,7 +223,7 @@ const ChatView = () => {
     return (
       <div className="chatview">
         <main className="chatview__chatarea">
-          <div className="connect-wallet">
+          <div className="connect-wallet md:justify-end sm:justify-end justify-start">
             <div
               className="connect-w"
               style={{

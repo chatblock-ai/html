@@ -287,9 +287,10 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   display: flex;
+  flex-wrap: wrap;
   height: 100px;
   align-items: center;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   --tw-bg-opacity: 1;
   font-size: 1.25rem;
   line-height: 1.75rem
