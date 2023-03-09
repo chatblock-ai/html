@@ -16,7 +16,6 @@ const DepositsAndWithdrawals = (props) => {
           content="Deposits-and-Withdrawals - Miniature Spherical Gorilla"
         />
       </Helmet>
-    <div className="deposits-and-withdrawals-container">
       <Link to="/chatblockai" className="deposits-and-withdrawals-navlink">
         <img
           alt="image"
@@ -31,6 +30,7 @@ const DepositsAndWithdrawals = (props) => {
         className="deposits-and-withdrawals-image1"
       />
     </div>
+    
   )
 }
 
