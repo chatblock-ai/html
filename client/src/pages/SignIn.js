@@ -31,13 +31,11 @@ const SignIn = () => {
         className="sign-in-image1"
       />
       <div id="place-here" className="sign-in-container1">
-            <div className='signin__container bg-black'>
               <button className="signin__btn flex items-center justify-center" onClick={signInWithGoogle}>
                 <FcGoogle className='m-2' />
                 Sign in with Google
               </button>
             </div>
-          </div>
       <img
         alt="image"
         src="/playground_assets/layers%20%5B7%5D-500w.png"
