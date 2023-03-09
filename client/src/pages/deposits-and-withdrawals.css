@@ -3,9 +3,9 @@
   display: flex;
   overflow: auto;
   min-height: 100vh;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .deposits-and-withdrawals-container1 {
@@ -23,12 +23,9 @@
 }
 
 .deposits-and-withdrawals-image {
-  width: 219px;
-  height: auto;
-  /* object-fit: cover; */
-  border-color: rgba(0, 0, 0, 0);
-  border-width: 1px;
-  border-radius: var(--dl-radius-radius-radius4);
+  width: 18%;
+  margin-top: 0.5%;
+  object-fit: cover;
   text-decoration: none;
 }
 
@@ -471,6 +468,12 @@
     top: 453px;
     left: 56px;
   }
+  
+.deposits-and-withdrawals-image1 {
+  width: 100%;
+  margin-top: 1%;
+  object-fit: cover;
+}
 
   .deposits-and-withdrawals-textinput {
     top: -7px;
@@ -491,4 +494,5 @@
   .deposits-and-withdrawals-dropdown-list {
     /* display: none; */
   }
+  
 }
