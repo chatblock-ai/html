@@ -13,10 +13,10 @@ const DepositsAndWithdrawals = (props) => {
         <title>Deposits and Withdrawals</title>
         <meta
           property="og:title"
-          content="Deposits-and-Withdrawals - Miniature Spherical Gorilla"
+          content="Deposits-and-Withdrawals"
         />
       </Helmet>
-      <Link to="/chatblockai" className="deposits-and-withdrawals-navlink">
+      <Link to="/init" className="deposits-and-withdrawals-navlink">
         <img
           alt="image"
           src="/playground_assets/simple-home-with-pixel-art-style_475147-414%20%5B1%5D-modified-300w.png"
