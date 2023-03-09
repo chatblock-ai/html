@@ -254,11 +254,6 @@ const Component22 = (props) => {
       >
         Submit
       </button>
-      <button onClick={() => back()}
-        className="deposits-and-withdrawals-button1 button1 absolute"
-      >
-        Back
-      </button>
     </div>
   )
 }
