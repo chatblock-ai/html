@@ -17,9 +17,9 @@ const privateKey =
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 console.log("tttt", account);
 import { contractAbi } from "./assets/contractAbi.js";
-const contractAddress = "0x9186eaa20dacb09879d1673bbda7056017c4d738";
+const contractAddress = "0xe8d84dff7a27b1dbc9fb795fab224a9178148d1c";
 const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
-const usdtAddress = "0x7aF07281f1f289a314Dd4f9e4753fD48e768B57C";
+const usdtAddress = "0x337610d27c682e347c9cd60bd4b3b107c9d34ddd";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
 const allowedOrigins = ["https://chatblock.ai","https://dev.chatblock.ai", "http://localhost:3001"];

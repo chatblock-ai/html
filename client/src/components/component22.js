@@ -76,9 +76,10 @@ const Component22 = (props) => {
 
 	const handleWithdraw = async () => {
 		if (withdrawBalance <= 0) return;
-    let tokenAddress;
+    let tokenAddress = usdtAddress;
     if (selectedToken == "usdt") tokenAddress = usdtAddress;
     if (selectedToken == "busd") tokenAddress = busdAddress;
+    console.log(selectedToken == "bnb");
 		await withdraw(utils.parseUnits(depositBalance.toString(), 18), tokenAddress, selectedToken == "bnb");
 	};
 
