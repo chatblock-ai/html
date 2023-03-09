@@ -29,6 +29,12 @@
   text-decoration: none;
 }
 
+.deposits-and-withdrawals-image1 {
+  width: 100%;
+  margin-top: 1%;
+  object-fit: cover;
+}
+
 .deposits-and-withdrawals-button {
   left: calc(50% - 83px);
   top: calc(50% + 80px);
@@ -468,12 +474,6 @@
     top: 453px;
     left: 56px;
   }
-  
-.deposits-and-withdrawals-image1 {
-  width: 100%;
-  margin-top: 1%;
-  object-fit: cover;
-}
 
   .deposits-and-withdrawals-textinput {
     top: -7px;
