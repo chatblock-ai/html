@@ -266,7 +266,7 @@ const ChatView = () => {
 
           <span ref={messagesEndRef} />
         </main>
-        <form className="form" onSubmit={sendMessage}>
+        <form className="form font-vt" onSubmit={sendMessage}>
           <select
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
