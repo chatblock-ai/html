@@ -248,12 +248,7 @@ const Component22 = (props) => {
       >
         Submit
       </button>
-      <Link to="/init"
-        className="deposits-and-withdrawals-button1 button1 absolute"
-      >
-        Back
-      </Link>
-    </div>
+      
   )
 }
 
