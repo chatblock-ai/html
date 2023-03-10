@@ -62,7 +62,7 @@ const SideBar = () => {
       <div className="nav__bottom">
       <div className="nav">
           <span className="nav__item">
-            <div className="nav__icons" a href="https://linktr.ee/chatblockai">
+            <div className="nav__icons">
               <img src="/images/social-media.png" className="w-[20px]" />
             </div>
             <h1 className={`font-vt ${!open && "hidden"}`}>Social Media</h1>
