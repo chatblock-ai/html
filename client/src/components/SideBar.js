@@ -66,6 +66,7 @@ const SideBar = () => {
               <img src="/images/social-media.png" className="w-[20px]" />
             </div>
             <h1 className={`font-vt ${!open && "hidden"}`}>Social Media</h1>
+            <a href="https://linktr.ee/chatblockai" />
           </span>
         </div>
         <div className="nav">
@@ -87,7 +88,7 @@ const SideBar = () => {
         </div>
         <DarkMode open={open} />
         <div className="nav">
-          <a href='https://github.com/EyuCoder/chatgpt-clone' className="nav__item">
+          <a href="./port%202.pdf" className="nav__item">
             <div className="nav__icons">
               <img src="/images/docs.png" className="w-[25px]" />
             </div>
