@@ -110,7 +110,7 @@ const Chatblockai = (props) => {
                 className="chatblockai-image2"
             />
             <a
-                href="/images/docs.pdf"
+                href="/images/Docs.pdf"
                 rel="noreferrer noopener"
                 className="chatblockai-link5"
                 target="_blank"
