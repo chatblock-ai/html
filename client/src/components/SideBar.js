@@ -68,8 +68,8 @@ const SideBar = () => {
             </div>
             <h1 className={`font-vt ${!open && "hidden"}`}>Social Media</h1>
           </span>
-          </a>
         </div>
+        </a>
         <div className="nav">
           <span className="nav__item">
             <div className="nav__icons">
@@ -94,8 +94,8 @@ const SideBar = () => {
               <img src="/images/docs.png" className="w-[25px]" />
             </div>
             <h1 className={`font-vt ${!open && "hidden"}`}>Docs</h1>
-          </a>
         </div>
+        </a>
         <div className="nav">
           <span className="nav__item" onClick={SignOut}>
             <div className="nav__icons">
