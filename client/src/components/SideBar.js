@@ -62,14 +62,12 @@ const SideBar = () => {
       <div className="nav__bottom">
       <div className="nav">
         <span className="nav__item">
-          <a href="https://dev.chatblock.ai/init" target="_blank">
            <div className="nav__icons">
                <img src="/images/social-media.png" className="w-[20px]" />
             </div>
             <h1 className={`font-vt ${!open && "hidden"}`}>Social Media</h1>
           </span>
         </div>
-        </a>
         <div className="nav">
           <span className="nav__item">
             <div className="nav__icons">
