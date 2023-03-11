@@ -15,7 +15,7 @@ const SignIn = () => {
   return (
     <div className="sign-in-container">
       <Helmet>
-        <title>Sign-in</title>
+        <title>AI</title>
         <meta
           property="og:title"
           content="Sign-in - Miniature Spherical Gorilla"
