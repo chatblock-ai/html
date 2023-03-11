@@ -87,7 +87,7 @@ const SideBar = () => {
         </div>
         <DarkMode open={open} />
         <div className="nav">
-          <a href="/images/final.pdf" target="_blank" className="nav__item">
+          <a href="/images/Docs.pdf" target="_blank" className="nav__item">
             <div className="nav__icons">
               <img src="/images/docs.png" className="w-[25px]" />
             </div>
