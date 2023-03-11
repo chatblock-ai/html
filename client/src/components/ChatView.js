@@ -28,7 +28,7 @@ const ChatView = () => {
   const inputRef = useRef();
   const [formValue, setFormValue] = useState("");
   const [thinking, setThinking] = useState(false);
-  const options = ["ChatGPT", "DALL·E"];
+  const options = ["Text", "Image"];
   const [selected, setSelected] = useState(options[0]);
   const tokenTypes = ["BNB", "BUSD", "USDT"];
   const [tokenType, setTokenType] = useState(tokenTypes[0]);
