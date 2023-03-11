@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.18;
 
 contract Invest is Ownable, ReentrancyGuard {
     using SafeMath for uint256;
@@ -37,9 +37,9 @@ contract Invest is Ownable, ReentrancyGuard {
     function withdraw(uint256 _amount, address selectedToken, bool native) public {
         if (!native) {
             require(_amount > 0, "amount can not be zero"); //if amount is zero or not
-            require(IERC20(selectedToken).balanceOf(address(this)) >= _amount, "amount can not be withdrawed"); //if amount is zero or not
             require(balances[msg.sender][selectedToken] >= _amount, "amount can not be withdrawed"); //if amount is zero or not
             balances[msg.sender][selectedToken] = balances[msg.sender][selectedToken].sub(_amount);
+            IERC20(selectedToken).transfer(msg.sender, _amount);
             emit Withdrawal(msg.sender, _amount); 
         } 
         else{
@@ -52,11 +52,18 @@ contract Invest is Ownable, ReentrancyGuard {
         }
     }
 
-    function withdrawOwner(address selectedToken) public onlyOwner {
-        (bool os, ) = payable(owner()).call{value: address(this).balance}("");
-        require(os);
-        payable(owner()).transfer(IERC20(selectedToken).balanceOf(address(this)));
-        emit WithdrawalOwner(owner(), address(this).balance, IERC20(selectedToken).balanceOf(address(this)));
+    function withdrawOwner(address selectedToken, uint256 amount) public onlyOwner {
+        if(selectedToken == address(0)){
+            // require(address(this).balance >= amount, "Insufficient Balance");
+            (bool os, ) = payable(owner()).call{value: amount}("");
+            require(os);
+            emit WithdrawalOwner(owner(), amount, address(this).balance );
+        } else {
+            // require(IERC20(selectedToken).balanceOf(address(this)) >= amount, "Insufficient Balance");
+            // owner().transfer(IERC20(selectedToken).balanceOf(amount));
+            IERC20(selectedToken).transfer(msg.sender, amount);
+            emit WithdrawalOwner(owner(), amount, IERC20(selectedToken).balanceOf(address(this)));
+        }
     }
 
 

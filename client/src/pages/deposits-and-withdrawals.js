@@ -23,14 +23,14 @@ const DepositsAndWithdrawals = (props) => {
           className="deposits-and-withdrawals-image"
         />
       </Link>
-        <Component22></Component22>
+      <Component22></Component22>
       <img
         alt="image"
         src="/playground_assets/layers%20%5B6%5D-200h.png"
-        className="deposits-and-withdrawals-image1"
+        className="deposits-and-withdrawals-image4"
       />
     </div>
-    
+
   )
 }
 

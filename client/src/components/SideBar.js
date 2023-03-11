@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { MdClose, MdMenu, MdAdd, MdOutlineLogout, MdOutlineQuestionAnswer, MdOutlineCoffee } from 'react-icons/md'
 import { ChatContext } from '../context/chatContext'
 import bot from '../assets/favicon.ico'
@@ -47,7 +48,7 @@ const SideBar = () => {
           ChatBlock.ai
         </h1>
         <div className='sidebar__btn-close' onClick={() => setOpen(!open)}>
-          {open ? <img src="/images/close-btn.png" className="w-[20px]"/> : <MdMenu className='sidebar__btn-icon' />}
+          {open ? <img src="/images/close-btn.png" className="w-[20px]" /> : <MdMenu className='sidebar__btn-icon' />}
 
         </div>
       </div>
@@ -60,12 +61,12 @@ const SideBar = () => {
         </span>
       </div>
       <div className="nav__bottom">
-      <div className="nav">
+        <div className="nav">
           <span className="nav__item">
             <div className="nav__icons">
               <img src="/images/social-media.png" className="w-[20px]" />
             </div>
-            <h1 className={`font-vt ${!open && "hidden"}`}>Social Media</h1>
+            <Link to='https://linktr.ee/chatblockai' className={`font-vt ${!open && "hidden"}`} target="_blank">Social Media</Link>
           </span>
         </div>
         <div className="nav">
@@ -73,7 +74,7 @@ const SideBar = () => {
             <div className="nav__icons">
               <img src="/images/deposit.png" className="w-[20px]" />
             </div>
-            <h1 className={`font-vt ${!open && "hidden"}`}>Deposit/Withdrawl</h1>
+            <Link to='/deposits-and-withdrawals' className={`font-vt ${!open && "hidden"}`} target="_blank" >Deposit/Withdrawl</Link>
           </span>
         </div>
         <div className="nav">
@@ -82,12 +83,12 @@ const SideBar = () => {
               {/* <MdOutlineLogout /> */}
               <img src="/images/buy-token.png" className="w-[20px]" />
             </div>
-            <h1 className={`font-vt ${!open && "hidden"}`}>Buy Token</h1>
+            <Link to='https://forms.gle/1Kq44NVEMUnUBCuZA' className={`font-vt ${!open && "hidden"}`} target="_blank" >Buy Token</Link>
           </span>
         </div>
         <DarkMode open={open} />
         <div className="nav">
-          <a href='https://github.com/EyuCoder/chatgpt-clone' className="nav__item">
+          <a href="/images/Docs.pdf" target="_blank" className="nav__item">
             <div className="nav__icons">
               <img src="/images/docs.png" className="w-[25px]" />
             </div>

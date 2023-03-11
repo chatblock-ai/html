@@ -8,15 +8,15 @@ import { utils, BigNumber } from "ethers";
 import './component22.css'
 
 const Component22 = (props) => {
-  const { signer } =  useWalletConnection();
+  const { signer } = useWalletConnection();
   const [isShowMenu, setShowMenu] = useState(false)
   const [selectedToken, setSelectedToken] = useState(null)
   const [selectContract, setSelectContract] = useState("deposit")
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
   const [tabTextColor, setTabTextColor] = useState(null);
-	const [depositBalance, setDepositBalance] = useState(0);
-	const [withdrawBalance, setWithdrawBalance] = useState(0);
+  const [depositBalance, setDepositBalance] = useState(0);
+  const [withdrawBalance, setWithdrawBalance] = useState(0);
   const [decimals, setDecimals] = useState(0);
 
   const navigate = useNavigate()
@@ -29,59 +29,59 @@ const Component22 = (props) => {
   const tabsRef = useRef([]);
 
   const handleGetBalance = async () => {
-		if (decimals === 0) return;
-    if(tokenAddress == "bnb"){
+    if (decimals === 0) return;
+    if (tokenAddress == "bnb") {
       let balance =
         (await getBalance(signer, tokenAddress)).div(10 ** (decimals - 3))[1].toNumber() / 1000;
       console.log(balance);
       setUserBalance(balance);
     }
-		let balance =
-			(await getBalance(signer, tokenAddress)).div(10 ** (decimals - 3))[1].toNumber() / 1000;
-		console.log(balance);
-		setUserBalance(balance);
-	};
+    let balance =
+      (await getBalance(signer, tokenAddress)).div(10 ** (decimals - 3))[1].toNumber() / 1000;
+    console.log(balance);
+    setUserBalance(balance);
+  };
 
   const handleGetDecimal = async () => {
-		setDecimals(await getRetrieveTokenDecimal());
-	};
+    setDecimals(await getRetrieveTokenDecimal());
+  };
 
-	const handleDeposit = async () => {
+  const handleDeposit = async () => {
     console.log(">>>", depositBalance);
     console.log(selectedToken);
-		
+
     if (parseFloat(depositBalance) <= 0) return;
-		if (selectedToken == "bnb"){
-		  await depositBnb(depositBalance);
+    if (selectedToken == "bnb") {
+      await depositBnb(depositBalance);
     }
-    else if (selectedToken == "busd"){
-        await approve(
-          contractAddress,
-          utils.parseUnits(depositBalance.toString(), 18),
-        ).then(async (res) => {
-        console.log(depositBalance);  
-			  await deposit(utils.parseUnits(depositBalance.toString(), 18), busdAddress);
+    else if (selectedToken == "busd") {
+      await approve(
+        contractAddress,
+        utils.parseUnits(depositBalance.toString(), 18),
+      ).then(async (res) => {
+        console.log(depositBalance);
+        await deposit(utils.parseUnits(depositBalance.toString(), 18), busdAddress);
       });
     }
     else {
-        console.log(depositBalance, depositBalance * 10 ** 18);
-        await approve(
-          contractAddress,
-          utils.parseUnits(depositBalance.toString(), 18),
-        ).then(async (res) => {
+      console.log(depositBalance, depositBalance * 10 ** 18);
+      await approve(
+        contractAddress,
+        utils.parseUnits(depositBalance.toString(), 18),
+      ).then(async (res) => {
         await deposit(utils.parseUnits(depositBalance.toString(), 18), usdtAddress);
       });
     }
-	};
+  };
 
-	const handleWithdraw = async () => {
-		if (withdrawBalance <= 0) return;
+  const handleWithdraw = async () => {
+    if (withdrawBalance <= 0) return;
     let tokenAddress = usdtAddress;
     if (selectedToken == "usdt") tokenAddress = usdtAddress;
     if (selectedToken == "busd") tokenAddress = busdAddress;
     console.log(selectedToken == "bnb");
-		await withdraw(utils.parseUnits(depositBalance.toString(), 18), tokenAddress, selectedToken == "bnb");
-	};
+    await withdraw(utils.parseUnits(depositBalance.toString(), 18), tokenAddress, selectedToken == "bnb");
+  };
 
   const back = () => {
     navigate('/init')
@@ -102,9 +102,9 @@ const Component22 = (props) => {
 
   const handleContract = () => {
     console.log(">>>", selectContract);
-    if (selectContract =="deposit") handleDeposit();
-    if (selectContract =="withdraw") handleWithdraw();
-  //  handlewithdraw();
+    if (selectContract == "deposit") handleDeposit();
+    if (selectContract == "withdraw") handleWithdraw();
+    //  handlewithdraw();
   }
 
   return (
@@ -114,7 +114,7 @@ const Component22 = (props) => {
           name="deposit"
           type="button"
           id="deposit"
-          className="deposits-and-withdrawals-button1 button" onClick={() => { setSelectContract("deposit"); setActiveTabIndex(0) }}
+          className="deposits-and-withdrawals-button button" onClick={() => { setSelectContract("deposit"); setActiveTabIndex(0) }}
           style={{ color: 0 != activeTabIndex ? "black" : "#16b52d" }}
         >
           DEPOSIT
@@ -123,7 +123,7 @@ const Component22 = (props) => {
           name="withdraw"
           type="button"
           id="withdraw"
-          className="deposits-and-withdrawals-button2 button" onClick={() => { setSelectContract("withdraw"); setActiveTabIndex(1) }}
+          className="deposits-and-withdrawals-button1 button" onClick={() => { setSelectContract("withdraw"); setActiveTabIndex(1) }}
           style={{ color: 1 != activeTabIndex ? "black" : "#16b52d" }}
         >
           WITHDRAW
@@ -167,7 +167,7 @@ const Component22 = (props) => {
           autoComplete="0.0"
           id="amount"
           className="deposits-and-withdrawals-textinput input button"
-          onChange={(e)=>{setDepositBalance(e.target.value); setWithdrawBalance(e.target.value);}}
+          onChange={(e) => { setDepositBalance(e.target.value); setWithdrawBalance(e.target.value); }}
         />
         <div
           data-thq="thq-dropdown"
@@ -208,7 +208,7 @@ const Component22 = (props) => {
               </li>
               <li
                 data-thq="thq-dropdown"
-                className="deposits-and-withdrawals-dropdown1 list-item"
+                className="deposits-and-withdrawals-dropdown teleport-show list-item"
               >
                 <div
                   data-thq="thq-dropdown-toggle"
@@ -226,7 +226,7 @@ const Component22 = (props) => {
               </li>
               <li
                 data-thq="thq-dropdown"
-                className="deposits-and-withdrawals-dropdown2 list-item"
+                className="deposits-and-withdrawals-dropdown teleport-show list-item"
               >
                 <div
                   data-thq="thq-dropdown-toggle"
@@ -236,7 +236,7 @@ const Component22 = (props) => {
                     id="USDT"
                     name="USDT"
                     type="button"
-                    className="deposits-and-withdrawals-button5 button"
+                    className="deposits-and-withdrawals-button4 button"
                   >
                     USDT
                   </button>
@@ -250,8 +250,8 @@ const Component22 = (props) => {
         name="Submit"
         type="submit"
         id="submit"
-        className="deposits-and-withdrawals-button button absolute"
-        onClick={()=>handleContract()}
+        className="deposits-and-withdrawals-button5 button"
+        onClick={() => handleContract()}
       >
         Submit
       </button>

@@ -14,7 +14,7 @@ const App = () => {
   const [user] = useAuthState(auth)
   return (
         <ChatContextProvider>
-          <WalletConnectionProvider defaultNetwork={'bsc testnet'}>
+          <WalletConnectionProvider defaultNetwork={'bsc'}>
            <BrowserRouter>
              <Routes>
               <Route element={<Chatblockai />} exact path="/" />

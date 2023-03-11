@@ -16,7 +16,7 @@ const Chatblockai = (props) => {
     return (
         <div className="chatblockai-container">
             <Helmet>
-                <title>Miniature Spherical Gorilla</title>
+                <title>Chatblock</title>
                 <meta property="og:title" content="Miniature Spherical Gorilla" />
             </Helmet>
             <img
