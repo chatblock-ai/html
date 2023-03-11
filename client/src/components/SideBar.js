@@ -60,8 +60,9 @@ const SideBar = () => {
         </span>
       </div>
       <div className="nav__bottom">
-      <div className="nav" a href="https://linktr.ee/chatblockai" target="_blank">
+      <div className="nav">
           <span className="nav__item">
+          <a href="https://linktr.ee/chatblockai" target="_blank">
             <div className="nav__icons">
               <img src="/images/social-media.png" className="w-[20px]" />
             </div>
