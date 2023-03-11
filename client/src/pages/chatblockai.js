@@ -93,7 +93,7 @@ const Chatblockai = (props) => {
                     ></Component17>
                 </a>
                 <a
-                    href="https://pancakeswap.finance/"
+                    href="https://forms.gle/1Kq44NVEMUnUBCuZA"
                     target="_blank"
                     rel="noreferrer noopener"
                     className="chatblockai-link4"
@@ -110,9 +110,10 @@ const Chatblockai = (props) => {
                 className="chatblockai-image2"
             />
             <a
-                href="#"
+                href="/images/docs.pdf"
                 rel="noreferrer noopener"
                 className="chatblockai-link5"
+                target="_blank"
             >
                 <img
                     alt="image"
