@@ -13,12 +13,12 @@ const BN = Web3.utils.BN;
 
 const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 const privateKey =
-	"562fe359510311a13a65de99e89b311d21f38f569585b3e4a13f70db88dab8cb";
+	"544acc29f09cc7f8a72846d274a3d3eca2c1019f8d6cb2e42d8061cc8a11ae81";
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 import { contractAbi } from "./assets/contractAbi.js";
-const contractAddress = "0xe8d84dff7a27b1dbc9fb795fab224a9178148d1c";
-const busdAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
-const usdtAddress = "0x337610d27c682e347c9cd60bd4b3b107c9d34ddd";
+const contractAddress = "0x1c460eba5393bd9250ac8dC6645FDc47C7EA5B36";
+const busdAddress = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
+const usdtAddress = "0x55d398326f99059ff775485246999027b3197955";
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
 const allowedOrigins = ["https://chatblock.ai","https://dev.chatblock.ai", "http://localhost:3000"];
