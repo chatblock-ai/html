@@ -64,7 +64,6 @@ const SideBar = () => {
           <span className="nav__item">
             <div className="nav__icons">
               <img src="/images/social-media.png" className="w-[20px]" />
-              <a href="https://linktr.ee/chatblockai" target="_blank"/>
             </div>
             <h1 className={`font-vt ${!open && "hidden"}`}>Social Media</h1>
           </span>
@@ -88,7 +87,7 @@ const SideBar = () => {
         </div>
         <DarkMode open={open} />
         <div className="nav">
-          <a href="/images/final.pdf" className="nav__item">
+          <a href="/images/final.pdf" target="_blank" className="nav__item">
             <div className="nav__icons">
               <img src="/images/docs.png" className="w-[25px]" />
             </div>
